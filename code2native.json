@@ -1,0 +1,4 @@
+{
+  "artifacts": { "dir": "app/build/outputs" },
+  "commands": { "ANDROID": "./gradlew assembleRelease" }
+}

@@ -1,46 +1,454 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Instaweb</title>
+
 <style>
-:root{--bg:#050505;--card:rgba(255,255,255,.06);--text:#fff;--muted:#858585;--line:rgba(255,255,255,.08)}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;width:100%;height:100%;background:var(--bg);color:var(--text);font-family:Inter,Roboto,Arial,sans-serif}body{overflow:hidden}
-#app{height:100%;display:flex;flex-direction:column}.page{flex:1;overflow:auto;padding:22px 18px 110px}.top{display:flex;align-items:center;justify-content:space-between}.brand{display:flex;gap:10px;align-items:center}.logo{width:36px;height:36px;border-radius:12px;background:#fff;color:#000;display:grid;place-items:center;font-weight:900}.name{font-size:20px;font-weight:700}.gear{width:42px;height:42px;border-radius:15px;background:var(--card);color:#fff;border:1px solid var(--line);font-size:18px}
-h1{font-size:39px;line-height:1.02;letter-spacing:-2px;margin:55px 0 12px}.muted{color:var(--muted)}.sub{font-size:14px;line-height:1.5}
-.search{margin-top:26px;background:#f4f4f4;color:#111;border-radius:22px;height:62px;padding:8px;display:flex;gap:8px}.search input{min-width:0;flex:1;border:0;background:transparent;padding:0 8px;font-size:15px;outline:0}.search button{width:44px;border:0;border-radius:15px;background:#111;color:#fff;font-size:20px}.section{margin-top:30px}.section h2{font-size:16px}.sites{display:flex;gap:10px;overflow:auto}.site{min-width:80px;height:84px;border:1px solid var(--line);border-radius:20px;background:var(--card);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px}.icon{width:35px;height:35px;border-radius:12px;background:#fff;color:#000;display:grid;place-items:center;font-weight:800}.discover{margin-top:30px;padding:22px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,.09),rgba(255,255,255,.025))}
-.bottom{position:fixed;left:12px;right:12px;bottom:12px;height:72px;border:1px solid var(--line);border-radius:25px;background:rgba(22,22,22,.92);display:flex;justify-content:space-around;align-items:center;z-index:5}.nav{width:62px;height:58px;border-radius:18px;background:transparent;color:#666;border:0}.nav.active{background:rgba(255,255,255,.08);color:#fff}.nav b{display:block;font-size:18px}.nav small{font-size:9px}
-.browser{height:100%;display:flex;flex-direction:column}.bar{display:flex;gap:6px;padding:10px;background:#0b0b0b;border-bottom:1px solid var(--line)}.bar button{width:40px;background:var(--card);color:#fff;border:0;border-radius:12px}.bar input{flex:1;min-width:0;border:1px solid var(--line);border-radius:13px;background:#151515;color:#fff;padding:0 12px}.webframe{flex:1;background:#fff}.tools{height:62px;display:flex;justify-content:space-around;align-items:center;background:#111;border-top:1px solid var(--line)}.tools button{background:none;color:#fff;border:0;font-size:18px}
-.panel{position:fixed;inset:0;background:#080808;z-index:20;padding:20px;overflow:auto}.row{padding:16px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}.close{float:right;background:var(--card);color:#fff;border:0;border-radius:12px;padding:10px}.card{margin-top:10px;padding:14px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;background:#050505;color:#fff;font-family:Arial,sans-serif}
+body{overflow:hidden}
+button,input{font:inherit}
+button{border:0;color:#fff;background:#151515;border-radius:14px}
+button:active{transform:scale(.97)}
+#app{width:100%;height:100%;overflow:hidden}
+
+.page{height:100%;padding:24px 18px 100px;overflow:auto}
+.top{display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:38px;height:38px;border-radius:12px;background:#fff;color:#050505;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px}
+.name{font-size:20px;font-weight:700}
+.gear{width:42px;height:42px;font-size:20px}
+
+h1{font-size:34px;line-height:1.05;margin:48px 0 10px}
+h2{margin:0 0 10px}
+.muted{color:#777}
+.sub{font-size:15px;margin-bottom:24px}
+
+.search{display:flex;gap:8px;background:#111;border:1px solid #242424;padding:7px;border-radius:18px}
+.search input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;padding:12px}
+.search button{width:46px;font-size:22px;background:#fff;color:#000}
+
+.section{margin-top:30px}
+.section h2{font-size:18px}
+.sites{display:flex;gap:10px}
+.site{width:31%;padding:15px 8px;background:#111;border:1px solid #222}
+.site .icon{display:block;font-size:24px;margin-bottom:8px}
+.site small{color:#aaa}
+
+.discover{margin-top:30px;padding:22px;border-radius:22px;background:#111;border:1px solid #222}
+.discover h2{font-size:25px;margin-top:8px}
+
+.bottom{position:fixed;left:12px;right:12px;bottom:12px;height:70px;background:#111;border:1px solid #252525;border-radius:22px;display:flex;justify-content:space-around;align-items:center}
+.nav{background:transparent;min-width:60px;height:58px;font-size:20px}
+.nav small{display:block;font-size:10px;color:#777;margin-top:4px}
+.nav.active{background:#1d1d1d}
+
+.browser{height:100%;display:flex;flex-direction:column;background:#050505}
+.bar{display:flex;gap:7px;padding:12px;background:#090909;border-bottom:1px solid #222}
+.bar button{width:42px;height:42px;font-size:20px}
+.bar input{flex:1;min-width:0;background:#151515;border:1px solid #242424;border-radius:13px;color:#fff;padding:0 12px;outline:0}
+.webframe{flex:1;min-height:0;background:#fff}
+.tools{height:66px;background:#090909;border-top:1px solid #222;display:flex;align-items:center;justify-content:space-around}
+.tools button{width:48px;height:44px;font-size:20px}
+
+.panel{height:100%;overflow:auto;padding:24px 18px 40px;background:#050505}
+.panel .close{padding:12px 16px;margin-bottom:20px}
+.panel h2{font-size:28px;margin-bottom:20px}
+.card{padding:16px;margin:10px 0;background:#111;border:1px solid #222;border-radius:16px}
+.card button{padding:9px 12px;margin-top:10px}
+.row{padding:16px 0;border-bottom:1px solid #222;display:flex;align-items:center;justify-content:space-between}
 </style>
 </head>
-<body><div id="app"></div>
+
+<body>
+<div id="app"></div>
+
 <script>
 const A=window.InstawebNative;
-let screen='home', privateMode=false, bookmarks=JSON.parse(A.getBookmarks()||'[]');
-let tabs=[{url:'https://www.google.com',title:'Google'}], active=0;
-const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function norm(v){v=v.trim();if(!v)return 'https://www.google.com';if(/^https?:\\/\\//i.test(v))return v;if(/^[\\w.-]+\\.[a-z]{2,}/i.test(v))return 'https://'+v;return 'https://www.google.com/search?q='+encodeURIComponent(v)}
-function go(v){const u=norm(v);tabs[active].url=u;tabs[active].title=u;screen='browser';render()}
-function home(){screen='home';render()}
-function browser(){screen='browser';render()}
-function render(){
-const app=document.getElementById('app');
-if(screen==='browser'){app.innerHTML=`<div class="browser"><div class="bar"><button onclick="A.back()">‹</button><input id="addr" value="${esc(tabs[active].url)}" onkeydown="if(event.key==='Enter')go(this.value)"><button onclick="A.refresh()">↻</button></div><div class="webframe" id="webframe"></div><div class="tools"><button onclick="A.back()">‹</button><button onclick="A.forward()">›</button><button onclick="bookmark()">☆</button><button onclick="tabsPanel()">▢</button><button onclick="menu()">☰</button></div></div>`; A.navigate(tabs[active].url); return}
-if(screen==='tabs'){tabsPanel(true);return}
-if(screen==='history'){historyPanel();return}
-if(screen==='bookmarks'){bookmarkPanel();return}
-if(screen==='settings'){settingsPanel();return}
-app.innerHTML=`<div class="page"><div class="top"><div class="brand"><div class="logo">I</div><div class="name">Instaweb</div></div><button class="gear" onclick="settingsPanel()">⚙</button></div><h1>Что будем искать <span class="muted">сегодня?</span></h1><div class="sub muted">Быстро. Просто. Твоё пространство в интернете.</div><div class="search"><input id="q" placeholder="Поиск или адрес сайта" onkeydown="if(event.key==='Enter')go(this.value)"><button onclick="go(document.getElementById('q').value)">→</button></div><div class="section"><h2>Быстрый доступ</h2><div class="sites"><button class="site" onclick="go('https://google.com')"><span class="icon">G</span><small>Google</small></button><button class="site" onclick="go('https://youtube.com')"><span class="icon">▶</span><small>YouTube</small></button><button class="site" onclick="go('https://wikipedia.org')"><span class="icon">W</span><small>Wikipedia</small></button></div></div><div class="discover"><small class="muted">DISCOVER</small><h2>Твой интернет.<br>Твой браузер.</h2><div class="muted">Настрой Instaweb полностью под себя.</div></div></div>${nav()}`;
+
+let screen='home';
+let privateMode=false;
+let bookmarks=JSON.parse(A.getBookmarks()||'[]');
+
+let tabs=[
+  {url:'https://www.google.com',title:'Google'}
+];
+let active=0;
+
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({
+  '&':'&amp;',
+  '<':'&lt;',
+  '>':'&gt;',
+  '"':'&quot;'
+}[c]));
+
+function norm(v){
+  v=v.trim();
+
+  if(!v)
+    return 'https://www.google.com';
+
+  if(/^https?:\/\//i.test(v))
+    return v;
+
+  if(/^[\w.-]+\.[a-z]{2,}/i.test(v))
+    return 'https://'+v;
+
+  return 'https://www.google.com/search?q='+encodeURIComponent(v);
 }
-function nav(){return `<div class="bottom"><button class="nav active" onclick="home()">⌂<small>Главная</small></button><button class="nav" onclick="historyPanel()">◷<small>История</small></button><button class="nav" onclick="tabsPanel()">▢<small>Вкладки</small></button><button class="nav" onclick="menu()">☰<small>Меню</small></button></div>`}
-function panel(title,body){document.getElementById('app').innerHTML=`<div class="panel"><button class="close" onclick="home()">Закрыть</button><h2>${title}</h2>${body}</div>`}
-function tabsPanel(){panel('Вкладки',tabs.map((t,i)=>`<div class="card"><b>${esc(t.title)}</b><div class="muted">${esc(t.url)}</div><button onclick="active=${i};browser()">Открыть</button> <button onclick="tabs.splice(${i},1);if(!tabs.length)tabs=[{url:'https://www.google.com',title:'Google'}];active=Math.min(active,tabs.length-1);tabsPanel()">Закрыть</button></div>`).join('')+`<div class="card"><button onclick="tabs.push({url:'https://www.google.com',title:'Google'});active=tabs.length-1;browser()">+ Новая вкладка</button></div>`)}
-function historyPanel(){let h=JSON.parse(A.getHistory()||'[]');panel('История',`<button onclick="A.clearHistory();historyPanel()">Очистить историю</button>`+h.map(x=>`<div class="card"><b>${esc(x.title)}</b><div class="muted">${esc(x.url)}</div></div>`).join(''))}
-function bookmark(){if(!bookmarks.some(x=>x.url===tabs[active].url)){bookmarks.unshift({title:tabs[active].title,url:tabs[active].url});A.saveBookmarks(JSON.stringify(bookmarks));alert('Сохранено в закладки')}}
-function bookmarkPanel(){panel('Закладки',bookmarks.map((x,i)=>`<div class="card" onclick="go('${esc(x.url)}')"><b>${esc(x.title)}</b><div class="muted">${esc(x.url)}</div></div>`).join('')||'<p class="muted">Закладок пока нет</p>')}
-function settingsPanel(){panel('Настройки',`<div class="row">Тема <b>Тёмная</b></div><div class="row">Приватный режим <button onclick="privateMode=!privateMode;A.setPrivateMode(privateMode);alert(privateMode?'Приватный режим включён':'Приватный режим выключен')">Переключить</button></div><div class="row">Закладки <button onclick="bookmarkPanel()">Открыть</button></div><div class="row">История <button onclick="historyPanel()">Открыть</button></div>`)}
-function menu(){settingsPanel()}
-window.instawebNativeUrl=u=>{const i=document.getElementById('addr');if(i)i.value=u};
+
+function go(v){
+  const u=norm(v);
+  tabs[active].url=u;
+  tabs[active].title=u;
+  screen='browser';
+  render();
+}
+
+function home(){
+  screen='home';
+  render();
+}
+
+function browser(){
+  screen='browser';
+  render();
+}
+
+function render(){
+  const app=document.getElementById('app');
+
+  if(screen==='browser'){
+    app.innerHTML=`
+      <div class="browser">
+        <div class="bar">
+          <button onclick="A.back()">‹</button>
+          <input id="addr"
+                 value="${esc(tabs[active].url)}"
+                 onkeydown="if(event.key==='Enter')go(this.value)">
+          <button onclick="A.refresh()">↻</button>
+        </div>
+
+        <div class="webframe" id="webframe"></div>
+
+        <div class="tools">
+          <button onclick="A.back()">‹</button>
+          <button onclick="A.forward()">›</button>
+          <button onclick="bookmark()">☆</button>
+          <button onclick="tabsPanel()">▢</button>
+          <button onclick="menu()">☰</button>
+        </div>
+      </div>
+    `;
+
+    A.navigate(tabs[active].url);
+    return;
+  }
+
+  if(screen==='tabs'){
+    tabsPanel(true);
+    return;
+  }
+
+  if(screen==='history'){
+    historyPanel();
+    return;
+  }
+
+  if(screen==='bookmarks'){
+    bookmarkPanel();
+    return;
+  }
+
+  if(screen==='settings'){
+    settingsPanel();
+    return;
+  }
+
+  app.innerHTML=`
+    <div class="page">
+
+      <div class="top">
+        <div class="brand">
+          <div class="logo">I</div>
+          <div class="name">Instaweb</div>
+        </div>
+
+        <button class="gear" onclick="settingsPanel()">⚙</button>
+      </div>
+
+      <h1>
+        Что будем искать
+        <span class="muted">сегодня?</span>
+      </h1>
+
+      <div class="sub muted">
+        Быстро. Просто. Твоё пространство в интернете.
+      </div>
+
+      <div class="search">
+        <input
+          id="q"
+          placeholder="Поиск или адрес сайта"
+          onkeydown="if(event.key==='Enter')go(this.value)"
+        >
+        <button onclick="go(document.getElementById('q').value)">→</button>
+      </div>
+
+      <div class="section">
+        <h2>Быстрый доступ</h2>
+
+        <div class="sites">
+          <button class="site" onclick="go('https://google.com')">
+            <span class="icon">G</span>
+            <small>Google</small>
+          </button>
+
+          <button class="site" onclick="go('https://youtube.com')">
+            <span class="icon">▶</span>
+            <small>YouTube</small>
+          </button>
+
+          <button class="site" onclick="go('https://wikipedia.org')">
+            <span class="icon">W</span>
+            <small>Wikipedia</small>
+          </button>
+        </div>
+      </div>
+
+      <div class="discover">
+        <small class="muted">DISCOVER</small>
+        <h2>Твой интернет.<br>Твой браузер.</h2>
+        <div class="muted">
+          Настрой Instaweb полностью под себя.
+        </div>
+      </div>
+
+    </div>
+
+    ${nav()}
+  `;
+}
+
+function nav(){
+  return `
+    <div class="bottom">
+
+      <button class="nav active" onclick="home()">
+        ⌂
+        <small>Главная</small>
+      </button>
+
+      <button class="nav" onclick="historyPanel()">
+        ◷
+        <small>История</small>
+      </button>
+
+      <button class="nav" onclick="tabsPanel()">
+        ▢
+        <small>Вкладки</small>
+      </button>
+
+      <button class="nav" onclick="menu()">
+        ☰
+        <small>Меню</small>
+      </button>
+
+    </div>
+  `;
+}
+
+function panel(title,body){
+  document.getElementById('app').innerHTML=`
+    <div class="panel">
+
+      <button class="close" onclick="home()">
+        Закрыть
+      </button>
+
+      <h2>${title}</h2>
+
+      ${body}
+
+    </div>
+  `;
+}
+
+function tabsPanel(){
+  panel(
+    'Вкладки',
+
+    tabs.map((t,i)=>`
+      <div class="card">
+
+        <b>${esc(t.title)}</b>
+
+        <div class="muted">
+          ${esc(t.url)}
+        </div>
+
+        <button onclick="active=${i};browser()">
+          Открыть
+        </button>
+
+        <button onclick="
+          tabs.splice(${i},1);
+          if(!tabs.length)
+            tabs=[{url:'https://www.google.com',title:'Google'}];
+          active=Math.min(active,tabs.length-1);
+          tabsPanel()
+        ">
+          Закрыть
+        </button>
+
+      </div>
+    `).join('')
+
+    +
+
+    `
+      <div class="card">
+        <button onclick="
+          tabs.push({
+            url:'https://www.google.com',
+            title:'Google'
+          });
+          active=tabs.length-1;
+          browser()
+        ">
+          + Новая вкладка
+        </button>
+      </div>
+    `
+  );
+}
+
+function historyPanel(){
+  let h=JSON.parse(A.getHistory()||'[]');
+
+  panel(
+    'История',
+
+    `
+      <button onclick="
+        A.clearHistory();
+        historyPanel()
+      ">
+        Очистить историю
+      </button>
+    `
+
+    +
+
+    h.map(x=>`
+      <div class="card">
+        <b>${esc(x.title)}</b>
+        <div class="muted">${esc(x.url)}</div>
+      </div>
+    `).join('')
+  );
+}
+
+function bookmark(){
+
+  if(!bookmarks.some(x=>x.url===tabs[active].url)){
+
+    bookmarks.unshift({
+      title:tabs[active].title,
+      url:tabs[active].url
+    });
+
+    A.saveBookmarks(
+      JSON.stringify(bookmarks)
+    );
+
+    alert('Сохранено в закладки');
+  }
+}
+
+function bookmarkPanel(){
+
+  panel(
+    'Закладки',
+
+    bookmarks.map((x,i)=>`
+      <div class="card" onclick="go('${esc(x.url)}')">
+
+        <b>${esc(x.title)}</b>
+
+        <div class="muted">
+          ${esc(x.url)}
+        </div>
+
+      </div>
+    `).join('')
+
+    ||
+
+    '<p class="muted">Закладок пока нет</p>'
+  );
+}
+
+function settingsPanel(){
+
+  panel(
+    'Настройки',
+
+    `
+      <div class="row">
+        <span>Тема</span>
+        <b>Тёмная</b>
+      </div>
+
+      <div class="row">
+        <span>Приватный режим</span>
+
+        <button onclick="
+          privateMode=!privateMode;
+          A.setPrivateMode(privateMode);
+          alert(
+            privateMode
+            ? 'Приватный режим включён'
+            : 'Приватный режим выключен'
+          )
+        ">
+          Переключить
+        </button>
+      </div>
+
+      <div class="row">
+        <span>Закладки</span>
+        <button onclick="bookmarkPanel()">
+          Открыть
+        </button>
+      </div>
+
+      <div class="row">
+        <span>История</span>
+        <button onclick="historyPanel()">
+          Открыть
+        </button>
+      </div>
+    `
+  );
+}
+
+function menu(){
+  settingsPanel();
+}
+
+window.instawebNativeUrl=function(u){
+
+  const i=document.getElementById('addr');
+
+  if(i)
+    i.value=u;
+};
+
 render();
-</script></body></html>
+</script>
+
+</body>
+</html>

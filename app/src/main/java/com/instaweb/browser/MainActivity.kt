@@ -1,12 +1,15 @@
 package com.instaweb.browser
 
 import android.app.DownloadManager
+import android.app.role.RoleManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.provider.Settings
 import android.view.View
 import android.webkit.CookieManager
 import android.webkit.DownloadListener
@@ -461,15 +464,115 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /*
+     * Запросить роль браузера по умолчанию.
+     *
+     * Android 10+:
+     * открывается системный диалог выбора браузера.
+     *
+     * Более старые версии:
+     * открываются настройки приложений по умолчанию.
+     */
+    private fun requestDefaultBrowser() {
+
+        try {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+
+                val roleManager =
+                    getSystemService(
+                        RoleManager::class.java
+                    )
+
+                if (
+                    roleManager != null &&
+                    roleManager.isRoleAvailable(
+                        RoleManager.ROLE_BROWSER
+                    )
+                ) {
+
+                    if (
+                        !roleManager.isRoleHeld(
+                            RoleManager.ROLE_BROWSER
+                        )
+                    ) {
+
+                        val intent =
+                            roleManager.createRequestRoleIntent(
+                                RoleManager.ROLE_BROWSER
+                            )
+
+                        startActivity(intent)
+
+                    } else {
+
+                        openDefaultAppsSettings()
+                    }
+
+                } else {
+
+                    openDefaultAppsSettings()
+                }
+
+            } else {
+
+                openDefaultAppsSettings()
+            }
+
+        } catch (_: Exception) {
+
+            openDefaultAppsSettings()
+        }
+    }
+
+    private fun openDefaultAppsSettings() {
+
+        try {
+
+            val intent =
+                Intent(
+                    Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS
+                )
+
+            startActivity(intent)
+
+        } catch (_: Exception) {
+
+            try {
+
+                val intent =
+                    Intent(
+                        Settings.ACTION_SETTINGS
+                    )
+
+                startActivity(intent)
+
+            } catch (_: Exception) {
+            }
+        }
+    }
+
     inner class Bridge {
 
         @JavascriptInterface
+        fun requestDefaultBrowser() {
+
+            runOnUiThread {
+
+                this@MainActivity
+                    .requestDefaultBrowser()
+            }
+        }
+
+        @JavascriptInterface
         fun navigate(url: String) {
+
             this@MainActivity.navigate(url)
         }
 
         @JavascriptInterface
         fun home() {
+
             this@MainActivity.showHome()
         }
 
@@ -484,8 +587,11 @@ class MainActivity : AppCompatActivity() {
                 ) {
 
                     if (browserWeb.canGoBack()) {
+
                         browserWeb.goBack()
+
                     } else {
+
                         showHome()
                     }
                 }
@@ -502,6 +608,7 @@ class MainActivity : AppCompatActivity() {
                     View.VISIBLE &&
                     browserWeb.canGoForward()
                 ) {
+
                     browserWeb.goForward()
                 }
             }
@@ -516,6 +623,7 @@ class MainActivity : AppCompatActivity() {
                     browserWeb.visibility ==
                     View.VISIBLE
                 ) {
+
                     browserWeb.reload()
                 }
             }
@@ -564,11 +672,13 @@ class MainActivity : AppCompatActivity() {
         fun setPrivateMode(
             value: Boolean
         ) {
+
             privateMode = value
         }
 
         @JavascriptInterface
         fun isPrivateMode(): Boolean {
+
             return privateMode
         }
 
@@ -582,7 +692,8 @@ class MainActivity : AppCompatActivity() {
                         Intent.ACTION_SEND
                     )
 
-                intent.type = "text/plain"
+                intent.type =
+                    "text/plain"
 
                 intent.putExtra(
                     Intent.EXTRA_TEXT,
@@ -602,17 +713,23 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
 
         try {
+
             uiWeb.stopLoading()
+
             uiWeb.removeJavascriptInterface(
                 "InstawebNative"
             )
+
             uiWeb.destroy()
+
         } catch (_: Exception) {
         }
 
         try {
+
             browserWeb.stopLoading()
             browserWeb.destroy()
+
         } catch (_: Exception) {
         }
 

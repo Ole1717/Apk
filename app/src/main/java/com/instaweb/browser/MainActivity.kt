@@ -7,13 +7,16 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.view.View
 import android.webkit.CookieManager
 import android.webkit.DownloadListener
+import android.webkit.JavascriptInterface
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -22,7 +25,13 @@ import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var web: WebView
+    private lateinit var root: FrameLayout
+
+    // WebView с интерфейсом Instaweb
+    private lateinit var uiWeb: WebView
+
+    // WebView для настоящих сайтов
+    private lateinit var browserWeb: WebView
 
     private val prefs by lazy {
         getSharedPreferences("instaweb", Context.MODE_PRIVATE)
@@ -38,22 +47,98 @@ class MainActivity : AppCompatActivity() {
         window.statusBarColor = Color.rgb(5, 5, 5)
         window.navigationBarColor = Color.BLACK
 
-        web = WebView(this)
+        root = FrameLayout(this)
 
-        web.setBackgroundColor(Color.WHITE)
+        // =========================
+        // UI WEBVIEW
+        // =========================
 
-        setupWebView()
+        uiWeb = WebView(this)
 
-        setContentView(web)
+        uiWeb.setBackgroundColor(Color.rgb(8, 8, 10))
+
+        setupUiWebView()
+
+        // =========================
+        // BROWSER WEBVIEW
+        // =========================
+
+        browserWeb = WebView(this)
+
+        browserWeb.setBackgroundColor(Color.WHITE)
+
+        setupBrowserWebView()
+
+        root.addView(
+            uiWeb,
+            FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+            )
+        )
+
+        root.addView(
+            browserWeb,
+            FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+            )
+        )
+
+        // Начинаем с интерфейса
+        browserWeb.visibility = View.GONE
+        uiWeb.visibility = View.VISIBLE
+
+        setContentView(root)
 
         setupBackButton()
 
-        web.loadUrl("file:///android_asset/index.html")
+        uiWeb.loadUrl(
+            "file:///android_asset/index.html"
+        )
     }
 
-    private fun setupWebView() {
+    // =========================================================
+    // UI WEBVIEW
+    // =========================================================
 
-        val settings = web.settings
+    private fun setupUiWebView() {
+
+        val settings = uiWeb.settings
+
+        settings.javaScriptEnabled = true
+        settings.domStorageEnabled = true
+        settings.databaseEnabled = true
+
+        settings.loadsImagesAutomatically = true
+        settings.allowFileAccess = true
+        settings.allowContentAccess = true
+
+        settings.javaScriptCanOpenWindowsAutomatically = false
+        settings.setSupportMultipleWindows(false)
+
+        settings.cacheMode = WebSettings.LOAD_DEFAULT
+
+        settings.userAgentString =
+            settings.userAgentString + " Instaweb/1.0"
+
+        uiWeb.webViewClient = WebViewClient()
+
+        uiWeb.webChromeClient = WebChromeClient()
+
+        uiWeb.addJavascriptInterface(
+            Bridge(),
+            "InstawebNative"
+        )
+    }
+
+    // =========================================================
+    // REAL BROWSER WEBVIEW
+    // =========================================================
+
+    private fun setupBrowserWebView() {
+
+        val settings = browserWeb.settings
 
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
@@ -64,6 +149,9 @@ class MainActivity : AppCompatActivity() {
         settings.allowContentAccess = true
 
         settings.javaScriptCanOpenWindowsAutomatically = true
+
+        // ВАЖНО:
+        // не создаём дополнительные окна WebView.
         settings.setSupportMultipleWindows(false)
 
         settings.mediaPlaybackRequiresUserGesture = false
@@ -73,54 +161,78 @@ class MainActivity : AppCompatActivity() {
         settings.userAgentString =
             settings.userAgentString + " Instaweb/1.0"
 
-        CookieManager.getInstance().setAcceptCookie(true)
+        CookieManager.getInstance()
+            .setAcceptCookie(true)
 
         CookieManager.getInstance()
-            .setAcceptThirdPartyCookies(web, true)
+            .setAcceptThirdPartyCookies(
+                browserWeb,
+                true
+            )
 
-        web.webViewClient = object : WebViewClient() {
+        browserWeb.webViewClient =
+            object : WebViewClient() {
 
-            override fun shouldOverrideUrlLoading(
-                view: WebView,
-                request: WebResourceRequest
-            ): Boolean {
+                override fun shouldOverrideUrlLoading(
+                    view: WebView,
+                    request: WebResourceRequest
+                ): Boolean {
 
-                return false
-            }
-
-            override fun onPageStarted(
-                view: WebView,
-                url: String,
-                favicon: android.graphics.Bitmap?
-            ) {
-
-                super.onPageStarted(view, url, favicon)
-
-                sendUrlToInterface(url)
-            }
-
-            override fun onPageFinished(
-                view: WebView,
-                url: String
-            ) {
-
-                super.onPageFinished(view, url)
-
-                if (!privateMode && url.isNotBlank()) {
-                    addHistory(
-                        url,
-                        view.title ?: url
-                    )
+                    // Оставляем все обычные ссылки
+                    // внутри нашего WebView.
+                    return false
                 }
 
-                sendUrlToInterface(url)
+                override fun onPageStarted(
+                    view: WebView,
+                    url: String,
+                    favicon: android.graphics.Bitmap?
+                ) {
+
+                    super.onPageStarted(
+                        view,
+                        url,
+                        favicon
+                    )
+
+                    sendUrlToInterface(url)
+                }
+
+                override fun onPageFinished(
+                    view: WebView,
+                    url: String
+                ) {
+
+                    super.onPageFinished(
+                        view,
+                        url
+                    )
+
+                    if (
+                        !privateMode &&
+                        url.isNotBlank() &&
+                        !url.startsWith("file://")
+                    ) {
+
+                        addHistory(
+                            url,
+                            view.title ?: url
+                        )
+                    }
+
+                    sendUrlToInterface(url)
+                }
             }
-        }
 
-        web.webChromeClient = WebChromeClient()
+        browserWeb.webChromeClient =
+            WebChromeClient()
 
-        web.setDownloadListener(
-            DownloadListener { url, userAgent, contentDisposition, mimeType, _ ->
+        browserWeb.setDownloadListener(
+            DownloadListener { url,
+                userAgent,
+                contentDisposition,
+                mimeType,
+                _ ->
 
                 enqueueDownload(
                     url,
@@ -130,27 +242,66 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         )
-
-        web.addJavascriptInterface(
-            Bridge(),
-            "InstawebNative"
-        )
     }
+
+    // =========================================================
+    // SHOW / HIDE BROWSER
+    // =========================================================
+
+    private fun showBrowser(url: String) {
+
+        runOnUiThread {
+
+            uiWeb.visibility = View.GONE
+            browserWeb.visibility = View.VISIBLE
+
+            browserWeb.loadUrl(url)
+        }
+    }
+
+    private fun showHome() {
+
+        runOnUiThread {
+
+            browserWeb.stopLoading()
+
+            browserWeb.visibility = View.GONE
+            uiWeb.visibility = View.VISIBLE
+
+            // Возвращаем интерфейс на главный экран.
+            uiWeb.evaluateJavascript(
+                """
+                if (typeof home === 'function') {
+                    home();
+                }
+                """.trimIndent(),
+                null
+            )
+        }
+    }
+
+    // =========================================================
+    // URL -> UI
+    // =========================================================
 
     private fun sendUrlToInterface(url: String) {
 
         val safeUrl =
             JSONObject.quote(url)
 
-        web.evaluateJavascript(
+        uiWeb.evaluateJavascript(
             """
-            if (window.instawebSetUrl) {
-                window.instawebSetUrl($safeUrl);
+            if (window.instawebNativeUrl) {
+                window.instawebNativeUrl($safeUrl);
             }
             """.trimIndent(),
             null
         )
     }
+
+    // =========================================================
+    // SYSTEM BACK
+    // =========================================================
 
     private fun setupBackButton() {
 
@@ -160,12 +311,25 @@ class MainActivity : AppCompatActivity() {
 
                 override fun handleOnBackPressed() {
 
-                    if (web.canGoBack()) {
+                    if (
+                        browserWeb.visibility ==
+                        View.VISIBLE
+                    ) {
 
-                        web.goBack()
+                        if (
+                            browserWeb.canGoBack()
+                        ) {
+
+                            browserWeb.goBack()
+
+                        } else {
+
+                            showHome()
+                        }
 
                     } else {
 
+                        // Мы уже на главном экране.
                         finish()
                     }
                 }
@@ -173,44 +337,82 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun normalizeUrl(input: String): String {
+    // =========================================================
+    // URL NORMALIZATION
+    // =========================================================
+
+    private fun normalizeUrl(
+        input: String
+    ): String {
 
         val value =
             input.trim()
 
         if (value.isEmpty()) {
+
             return "https://www.google.com"
         }
 
         if (
-            value.startsWith("http://") ||
-            value.startsWith("https://")
+            value.startsWith(
+                "http://",
+                ignoreCase = true
+            ) ||
+            value.startsWith(
+                "https://",
+                ignoreCase = true
+            )
         ) {
+
             return value
         }
 
+        // Явный IP
         if (
-            value.contains(" ") ||
-            !value.contains(".")
+            value.matches(
+                Regex(
+                    """\d{1,3}(\.\d{1,3}){3}(:\d+)?"""
+                )
+            )
         ) {
 
-            return "https://www.google.com/search?q=" +
-                    Uri.encode(value)
+            return "http://$value"
         }
 
-        return "https://$value"
+        // Домен
+        if (
+            value.matches(
+                Regex(
+                    """[A-Za-z0-9][A-Za-z0-9.-]*\.[A-Za-z]{2,}.*"""
+                )
+            )
+        ) {
+
+            return "https://$value"
+        }
+
+        // Всё остальное — поиск Google.
+        return "https://www.google.com/search?q=" +
+                Uri.encode(value)
     }
 
-    private fun navigate(input: String) {
+    // =========================================================
+    // NAVIGATION
+    // =========================================================
+
+    private fun navigate(
+        input: String
+    ) {
 
         val url =
             normalizeUrl(input)
 
-        runOnUiThread {
-
-            web.loadUrl(url)
-        }
+        showBrowser(url)
     }
+
+    // =========================================================
+    // DOWNLOADS
+    // =========================================================
 
     private fun enqueueDownload(
         url: String,
@@ -227,12 +429,16 @@ class MainActivity : AppCompatActivity() {
                 )
 
             request.setMimeType(
-                mimeType ?: "application/octet-stream"
+                mimeType
+                    ?: "application/octet-stream"
             )
 
             request.addRequestHeader(
                 "User-Agent",
-                userAgent ?: web.settings.userAgentString
+                userAgent
+                    ?: browserWeb
+                        .settings
+                        .userAgentString
             )
 
             val cookie =
@@ -249,17 +455,19 @@ class MainActivity : AppCompatActivity() {
             }
 
             request.setNotificationVisibility(
-                DownloadManager.Request
+                DownloadManager
+                    .Request
                     .VISIBILITY_VISIBLE_NOTIFY_COMPLETED
             )
 
             request.setDestinationInExternalPublicDir(
                 Environment.DIRECTORY_DOWNLOADS,
-                android.webkit.URLUtil.guessFileName(
-                    url,
-                    contentDisposition,
-                    mimeType
-                )
+                android.webkit.URLUtil
+                    .guessFileName(
+                        url,
+                        contentDisposition,
+                        mimeType
+                    )
             )
 
             val manager =
@@ -270,15 +478,22 @@ class MainActivity : AppCompatActivity() {
             manager.enqueue(request)
 
         } catch (_: Exception) {
+            // Не даём загрузке уронить приложение.
         }
     }
+
+    // =========================================================
+    // HISTORY
+    // =========================================================
 
     private fun addHistory(
         url: String,
         title: String
     ) {
 
-        if (url.startsWith("file://")) {
+        if (
+            url.startsWith("file://")
+        ) {
             return
         }
 
@@ -298,8 +513,16 @@ class MainActivity : AppCompatActivity() {
             result.put(
                 JSONObject().apply {
 
-                    put("url", url)
-                    put("title", title)
+                    put(
+                        "url",
+                        url
+                    )
+
+                    put(
+                        "title",
+                        title
+                    )
+
                     put(
                         "time",
                         System.currentTimeMillis()
@@ -318,7 +541,9 @@ class MainActivity : AppCompatActivity() {
                     old.getJSONObject(i)
 
                 if (
-                    item.optString("url") != url
+                    item.optString(
+                        "url"
+                    ) != url
                 ) {
 
                     result.put(item)
@@ -336,45 +561,86 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // =========================================================
+    // JAVASCRIPT BRIDGE
+    // =========================================================
+
     inner class Bridge {
 
-        @android.webkit.JavascriptInterface
-        fun navigate(url: String) {
+        @JavascriptInterface
+        fun navigate(
+            url: String
+        ) {
 
-            navigate(url)
+            this@MainActivity.navigate(url)
         }
 
-        @android.webkit.JavascriptInterface
+        @JavascriptInterface
+        fun home() {
+
+            this@MainActivity.showHome()
+        }
+
+        @JavascriptInterface
         fun back() {
 
             runOnUiThread {
 
-                if (web.canGoBack()) {
-                    web.goBack()
+                if (
+                    browserWeb.visibility ==
+                    View.VISIBLE
+                ) {
+
+                    if (
+                        browserWeb.canGoBack()
+                    ) {
+
+                        browserWeb.goBack()
+
+                    } else {
+
+                        showHome()
+                    }
                 }
             }
         }
 
-        @android.webkit.JavascriptInterface
+        @JavascriptInterface
         fun forward() {
 
             runOnUiThread {
 
-                if (web.canGoForward()) {
-                    web.goForward()
+                if (
+                    browserWeb.visibility ==
+                    View.VISIBLE &&
+                    browserWeb.canGoForward()
+                ) {
+
+                    browserWeb.goForward()
                 }
             }
         }
 
-        @android.webkit.JavascriptInterface
+        @JavascriptInterface
         fun refresh() {
 
             runOnUiThread {
-                web.reload()
+
+                if (
+                    browserWeb.visibility ==
+                    View.VISIBLE
+                ) {
+
+                    browserWeb.reload()
+                }
             }
         }
 
-        @android.webkit.JavascriptInterface
+        // =====================================================
+        // HISTORY
+        // =====================================================
+
+        @JavascriptInterface
         fun getHistory(): String {
 
             return prefs.getString(
@@ -383,7 +649,7 @@ class MainActivity : AppCompatActivity() {
             ) ?: "[]"
         }
 
-        @android.webkit.JavascriptInterface
+        @JavascriptInterface
         fun clearHistory() {
 
             prefs.edit()
@@ -391,7 +657,11 @@ class MainActivity : AppCompatActivity() {
                 .apply()
         }
 
-        @android.webkit.JavascriptInterface
+        // =====================================================
+        // BOOKMARKS
+        // =====================================================
+
+        @JavascriptInterface
         fun getBookmarks(): String {
 
             return prefs.getString(
@@ -400,7 +670,7 @@ class MainActivity : AppCompatActivity() {
             ) ?: "[]"
         }
 
-        @android.webkit.JavascriptInterface
+        @JavascriptInterface
         fun saveBookmarks(
             value: String
         ) {
@@ -413,7 +683,11 @@ class MainActivity : AppCompatActivity() {
                 .apply()
         }
 
-        @android.webkit.JavascriptInterface
+        // =====================================================
+        // PRIVATE MODE
+        // =====================================================
+
+        @JavascriptInterface
         fun setPrivateMode(
             value: Boolean
         ) {
@@ -421,14 +695,20 @@ class MainActivity : AppCompatActivity() {
             privateMode = value
         }
 
-        @android.webkit.JavascriptInterface
+        @JavascriptInterface
         fun isPrivateMode(): Boolean {
 
             return privateMode
         }
 
-        @android.webkit.JavascriptInterface
-        fun share(text: String) {
+        // =====================================================
+        // SHARE
+        // =====================================================
+
+        @JavascriptInterface
+        fun share(
+            text: String
+        ) {
 
             runOnUiThread {
 
@@ -455,15 +735,33 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // =========================================================
+    // DESTROY
+    // =========================================================
+
     override fun onDestroy() {
 
-        web.stopLoading()
+        try {
 
-        web.removeJavascriptInterface(
-            "InstawebNative"
-        )
+            uiWeb.stopLoading()
 
-        web.destroy()
+            uiWeb.removeJavascriptInterface(
+                "InstawebNative"
+            )
+
+            uiWeb.destroy()
+
+        } catch (_: Exception) {
+        }
+
+        try {
+
+            browserWeb.stopLoading()
+
+            browserWeb.destroy()
+
+        } catch (_: Exception) {
+        }
 
         super.onDestroy()
     }

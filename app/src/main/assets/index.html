@@ -3,1067 +3,1665 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-
 <title>Instaweb</title>
 
 <style>
+:root{
+--bg:#050505;
+--bg2:#0d0d0f;
+--card:rgba(255,255,255,.075);
+--card2:rgba(255,255,255,.11);
+--text:#fff;
+--muted:#85858c;
+--line:rgba(255,255,255,.1);
+--accent:#8b7cff;
+--glass:18px;
+--radius:24px;
+--speed:.28s;
+}
+
 *{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
 html,body{
-  margin:0;
-  padding:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#08090c;
-  color:#fff;
-  font-family:Arial,sans-serif;
+margin:0;
+width:100%;
+height:100%;
+background:var(--bg);
+color:var(--text);
+font-family:Inter,Roboto,Arial,sans-serif;
+}
+
+body{
+overflow:hidden;
 }
 
 button,input{
-  font:inherit;
+font:inherit;
 }
 
 button{
-  border:0;
-  color:inherit;
+-webkit-tap-highlight-color:transparent;
 }
 
 #app{
-  width:100%;
-  height:100%;
+height:100%;
+display:flex;
+flex-direction:column;
 }
 
-.home{
-  min-height:100%;
-  padding:28px 20px 110px;
-  background:
-    radial-gradient(circle at 20% 10%,rgba(110,120,255,.18),transparent 35%),
-    radial-gradient(circle at 90% 40%,rgba(0,220,255,.10),transparent 35%),
-    #08090c;
+.page{
+flex:1;
+overflow:auto;
+padding:18px 16px 112px;
+animation:pageIn var(--speed) ease;
+}
+
+@keyframes pageIn{
+from{
+opacity:0;
+transform:translateY(10px);
+}
+to{
+opacity:1;
+transform:none;
+}
 }
 
 .top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:55px;
-}
-
-.logo{
-  width:48px;
-  height:48px;
-  border-radius:17px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:25px;
-  font-weight:bold;
-  background:rgba(255,255,255,.10);
-  border:1px solid rgba(255,255,255,.15);
-  backdrop-filter:blur(20px);
+display:flex;
+align-items:center;
+justify-content:space-between;
 }
 
 .brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
+display:flex;
+align-items:center;
+gap:10px;
 }
 
-.brand-name{
-  font-size:23px;
-  font-weight:700;
+.logo{
+width:38px;
+height:38px;
+border-radius:13px;
+background:var(--accent);
+color:#fff;
+display:grid;
+place-items:center;
+font-size:20px;
+font-weight:900;
+box-shadow:0 8px 28px color-mix(in srgb,var(--accent) 35%,transparent);
 }
 
-.icon-btn{
-  width:48px;
-  height:48px;
-  border-radius:17px;
-  background:rgba(255,255,255,.09);
-  border:1px solid rgba(255,255,255,.12);
-  backdrop-filter:blur(20px);
-  font-size:22px;
+.name{
+font-size:20px;
+font-weight:750;
 }
 
-.hero{
-  margin-bottom:28px;
+.gear{
+width:44px;
+height:44px;
+border-radius:15px;
+border:1px solid var(--line);
+background:var(--card);
+backdrop-filter:blur(var(--glass));
+-webkit-backdrop-filter:blur(var(--glass));
+color:#fff;
+font-size:19px;
+transition:.2s;
 }
 
-.hero h1{
-  margin:0;
-  font-size:38px;
-  line-height:1.05;
-  letter-spacing:-1.5px;
+.gear:active{
+transform:scale(.9);
 }
 
-.hero p{
-  margin:14px 0 0;
-  color:#9699a5;
-  font-size:15px;
-  line-height:1.5;
+h1{
+font-size:38px;
+line-height:1.02;
+letter-spacing:-2px;
+margin:48px 0 10px;
+}
+
+.muted{
+color:var(--muted);
 }
 
 .search{
-  display:flex;
-  align-items:center;
-  height:62px;
-  padding:6px;
-  border-radius:22px;
-  background:rgba(255,255,255,.10);
-  border:1px solid rgba(255,255,255,.14);
-  box-shadow:0 10px 40px rgba(0,0,0,.25);
-  backdrop-filter:blur(25px);
+margin-top:24px;
+height:62px;
+padding:7px;
+display:flex;
+gap:7px;
+border:1px solid rgba(255,255,255,.13);
+border-radius:22px;
+background:rgba(255,255,255,.92);
+box-shadow:0 15px 45px rgba(0,0,0,.18);
 }
 
 .search input{
-  min-width:0;
-  flex:1;
-  height:100%;
-  padding:0 16px;
-  border:0;
-  outline:0;
-  background:transparent;
-  color:#fff;
-  font-size:16px;
-}
-
-.search input::placeholder{
-  color:#8b8e99;
+flex:1;
+min-width:0;
+border:0;
+outline:0;
+background:transparent;
+color:#111;
+padding:0 11px;
+font-size:15px;
 }
 
 .search button{
-  width:50px;
-  height:50px;
-  border-radius:17px;
-  background:#fff;
-  color:#111;
-  font-size:24px;
+width:47px;
+border:0;
+border-radius:17px;
+background:var(--accent);
+color:#fff;
+font-size:21px;
+transition:.2s;
+}
+
+.search button:active{
+transform:scale(.92);
 }
 
 .section{
-  margin-top:35px;
+margin-top:30px;
 }
 
-.section-title{
-  color:#999ca8;
-  font-size:13px;
-  letter-spacing:1px;
-  margin-bottom:14px;
+.sectionHead{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:12px;
+}
+
+.sectionHead h2{
+margin:0;
+font-size:16px;
+}
+
+.edit{
+border:0;
+background:none;
+color:var(--accent);
+font-size:13px;
 }
 
 .sites{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
+display:flex;
+gap:10px;
+overflow-x:auto;
+padding-bottom:4px;
 }
 
 .site{
-  min-height:105px;
-  border-radius:22px;
-  background:rgba(255,255,255,.075);
-  border:1px solid rgba(255,255,255,.10);
-  backdrop-filter:blur(20px);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:9px;
+position:relative;
+min-width:82px;
+height:88px;
+border:1px solid var(--line);
+border-radius:21px;
+background:var(--card);
+backdrop-filter:blur(var(--glass));
+-webkit-backdrop-filter:blur(var(--glass));
+color:#fff;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:7px;
+transition:.2s;
 }
 
-.site-icon{
-  width:43px;
-  height:43px;
-  border-radius:15px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:rgba(255,255,255,.12);
-  font-size:21px;
+.site:active{
+transform:scale(.94);
+}
+
+.icon{
+width:36px;
+height:36px;
+border-radius:12px;
+background:var(--card2);
+display:grid;
+place-items:center;
+font-weight:800;
 }
 
 .site small{
-  color:#d4d5da;
+font-size:10px;
+max-width:68px;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
 }
 
-.card{
-  margin-top:30px;
-  padding:22px;
-  border-radius:25px;
-  background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.10);
-  backdrop-filter:blur(25px);
+.discover{
+margin-top:26px;
+padding:20px;
+border:1px solid var(--line);
+border-radius:25px;
+background:
+radial-gradient(circle at 90% 10%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 45%),
+var(--card);
+backdrop-filter:blur(var(--glass));
+-webkit-backdrop-filter:blur(var(--glass));
 }
 
-.card h2{
-  margin:0 0 8px;
-  font-size:22px;
-}
-
-.card p{
-  margin:0;
-  color:#9295a0;
-  line-height:1.5;
+.discover h2{
+margin:7px 0;
+font-size:24px;
+letter-spacing:-1px;
 }
 
 .bottom{
-  position:fixed;
-  left:14px;
-  right:14px;
-  bottom:14px;
-  height:72px;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  padding:7px;
-  border-radius:26px;
-  background:rgba(25,26,32,.78);
-  border:1px solid rgba(255,255,255,.13);
-  box-shadow:0 15px 45px rgba(0,0,0,.45);
-  backdrop-filter:blur(30px);
+position:fixed;
+left:12px;
+right:12px;
+bottom:12px;
+height:70px;
+border:1px solid var(--line);
+border-radius:25px;
+background:rgba(18,18,20,.72);
+backdrop-filter:blur(25px);
+-webkit-backdrop-filter:blur(25px);
+display:flex;
+justify-content:space-around;
+align-items:center;
+z-index:5;
+box-shadow:0 15px 50px rgba(0,0,0,.35);
 }
 
 .nav{
-  border-radius:20px;
-  background:transparent;
-  color:#858894;
-  font-size:23px;
-}
-
-.nav.active{
-  background:rgba(255,255,255,.11);
-  color:#fff;
+width:64px;
+height:56px;
+border-radius:18px;
+background:transparent;
+color:#777;
+border:0;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:3px;
+font-size:20px;
+transition:.2s;
 }
 
 .nav small{
-  display:block;
-  margin-top:3px;
-  font-size:10px;
+font-size:9px;
+}
+
+.nav.active{
+background:rgba(255,255,255,.09);
+color:#fff;
+}
+
+.nav:active{
+transform:scale(.9);
 }
 
 .browser{
-  width:100%;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  background:#fff;
+height:100%;
+display:flex;
+flex-direction:column;
+animation:pageIn var(--speed) ease;
 }
 
-.browser-bar{
-  flex-shrink:0;
-  height:76px;
-  padding:9px;
-  display:flex;
-  gap:8px;
-  align-items:center;
-  background:#08090c;
+.bar{
+display:flex;
+gap:7px;
+padding:9px;
+background:rgba(10,10,12,.92);
+border-bottom:1px solid var(--line);
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
 }
 
-.browser-bar button{
-  width:52px;
-  height:52px;
-  flex-shrink:0;
-  border-radius:18px;
-  background:rgba(255,255,255,.08);
-  font-size:24px;
+.bar button{
+width:42px;
+background:var(--card);
+color:#fff;
+border:1px solid var(--line);
+border-radius:13px;
+font-size:20px;
 }
 
-.address{
-  flex:1;
-  min-width:0;
-  height:52px;
-  border:0;
-  outline:0;
-  border-radius:18px;
-  padding:0 16px;
-  background:rgba(255,255,255,.10);
-  color:#fff;
-  font-size:14px;
+.bar input{
+flex:1;
+min-width:0;
+height:42px;
+border:1px solid var(--line);
+border-radius:14px;
+background:var(--card);
+color:#fff;
+padding:0 12px;
+outline:0;
 }
 
 .webframe{
-  flex:1;
-  min-height:0;
-  background:#fff;
+position:relative;
+flex:1;
+background:#fff;
+overflow:hidden;
 }
 
-.browser-tools{
-  flex-shrink:0;
-  height:78px;
-  padding:10px;
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:8px;
-  background:#08090c;
+.loading{
+position:absolute;
+inset:0;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(8,8,10,.9);
+backdrop-filter:blur(15px);
+-webkit-backdrop-filter:blur(15px);
+z-index:3;
+transition:.3s;
 }
 
-.browser-tools button{
-  border-radius:20px;
-  background:rgba(255,255,255,.08);
-  font-size:24px;
+.loading.hide{
+opacity:0;
+pointer-events:none;
+}
+
+.loader{
+width:34px;
+height:34px;
+border:3px solid rgba(255,255,255,.2);
+border-top-color:var(--accent);
+border-radius:50%;
+animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+to{
+transform:rotate(360deg);
+}
+}
+
+.tools{
+height:64px;
+display:flex;
+justify-content:space-around;
+align-items:center;
+background:rgba(15,15,17,.94);
+border-top:1px solid var(--line);
+}
+
+.tools button{
+width:44px;
+height:44px;
+border:0;
+border-radius:14px;
+background:transparent;
+color:#fff;
+font-size:19px;
+transition:.2s;
+}
+
+.tools button:active{
+transform:scale(.85);
+background:var(--card);
 }
 
 .panel{
-  width:100%;
-  height:100%;
-  overflow:auto;
-  padding:25px 20px 100px;
-  background:
-    radial-gradient(circle at 80% 10%,rgba(90,100,255,.16),transparent 35%),
-    #08090c;
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at 100% 0%,color-mix(in srgb,var(--accent) 13%,transparent),transparent 35%),
+var(--bg);
+z-index:20;
+padding:20px 17px 35px;
+overflow:auto;
+animation:panelIn .3s ease;
 }
 
-.panel-top{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:25px;
+@keyframes panelIn{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:none;
+}
 }
 
-.panel-top h2{
-  margin:0;
-  font-size:28px;
+.panelTitle{
+font-size:28px;
+font-weight:750;
+margin:5px 0 22px;
+letter-spacing:-1px;
 }
 
 .close{
-  width:45px;
-  height:45px;
-  border-radius:16px;
-  background:rgba(255,255,255,.09);
-  font-size:22px;
+float:right;
+background:var(--card);
+color:#fff;
+border:1px solid var(--line);
+border-radius:13px;
+padding:10px 14px;
 }
 
-.item{
-  margin-bottom:12px;
-  padding:18px;
-  border-radius:20px;
-  background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.10);
+.row{
+min-height:58px;
+padding:14px 0;
+border-bottom:1px solid var(--line);
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
 }
 
-.item-title{
-  font-weight:bold;
-  margin-bottom:7px;
-}
-
-.item-url{
-  color:#858995;
-  font-size:12px;
-  overflow:hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis;
-}
-
-.item button,
+.row button,
 .action{
-  margin-top:13px;
-  padding:11px 15px;
-  border-radius:14px;
-  background:rgba(255,255,255,.12);
+border:1px solid var(--line);
+background:var(--card);
+color:#fff;
+border-radius:13px;
+padding:9px 13px;
 }
 
-.empty{
-  color:#888b96;
-  text-align:center;
-  padding:50px 20px;
+.card{
+margin-top:10px;
+padding:15px;
+border:1px solid var(--line);
+border-radius:18px;
+background:var(--card);
+backdrop-filter:blur(var(--glass));
+-webkit-backdrop-filter:blur(var(--glass));
+}
+
+.card button{
+margin-top:10px;
+}
+
+.choice{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
+
+.choice button{
+padding:10px 13px;
+border-radius:13px;
+border:1px solid var(--line);
+background:var(--card);
+color:#fff;
+}
+
+.choice button.selected{
+background:var(--accent);
+border-color:var(--accent);
+}
+
+.preview{
+margin-top:15px;
+padding:16px;
+border-radius:var(--radius);
+background:var(--card);
+border:1px solid var(--line);
+}
+
+.previewBox{
+height:100px;
+border-radius:var(--radius);
+background:var(--card2);
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:700;
+}
+
+.range{
+width:100%;
+accent-color:var(--accent);
+}
+
+.addSite{
+display:flex;
+gap:7px;
+margin-top:12px;
+}
+
+.addSite input{
+flex:1;
+min-width:0;
+background:var(--card);
+border:1px solid var(--line);
+border-radius:13px;
+padding:11px;
+color:#fff;
+outline:0;
+}
+
+.addSite button{
+width:48px;
+border:0;
+border-radius:13px;
+background:var(--accent);
+color:#fff;
+}
+
+.settingBlock{
+margin-top:24px;
+}
+
+.settingBlock h3{
+font-size:14px;
+color:var(--muted);
+margin-bottom:10px;
+}
+
+.searchEngine{
+width:100%;
+padding:14px;
+border:1px solid var(--line);
+border-radius:16px;
+background:var(--card);
+color:#fff;
+outline:0;
+}
+
+.toast{
+position:fixed;
+left:50%;
+bottom:96px;
+transform:translateX(-50%) translateY(15px);
+background:rgba(30,30,32,.92);
+border:1px solid var(--line);
+backdrop-filter:blur(20px);
+-webkit-backdrop-filter:blur(20px);
+padding:12px 17px;
+border-radius:15px;
+opacity:0;
+pointer-events:none;
+transition:.25s;
+z-index:100;
+white-space:nowrap;
+}
+
+.toast.show{
+opacity:1;
+transform:translateX(-50%) translateY(0);
 }
 </style>
 </head>
 
 <body>
-
 <div id="app"></div>
 
 <script>
-const A = window.InstawebNative || {};
+const A=window.InstawebNative;
 
-let screen = "home";
-let privateMode = false;
+let screen='home';
+let privateMode=false;
+let bookmarks=JSON.parse(A.getBookmarks()||'[]');
 
-let tabs = [
-  {
-    url:"https://www.google.com",
-    title:"Google"
-  }
+let settings=JSON.parse(
+localStorage.getItem('instawebSettings')||'null'
+)||{
+engine:'google',
+accent:'#8b7cff',
+glass:18,
+radius:24,
+speed:.28,
+font:'Inter',
+theme:'dark'
+};
+
+let sites=JSON.parse(
+localStorage.getItem('instawebSites')||'null'
+)||[
+{title:'YouTube',url:'https://youtube.com',icon:'▶'},
+{title:'Wikipedia',url:'https://wikipedia.org',icon:'W'},
+{title:'GitHub',url:'https://github.com',icon:'⌘'}
 ];
 
-let active = 0;
+let tabs=[
+{url:'https://www.google.com',title:'Google'}
+];
 
-let bookmarks = [];
+let active=0;
 
-try{
-  if(A.getBookmarks){
-    bookmarks = JSON.parse(A.getBookmarks() || "[]");
-  }
-}catch(e){
-  bookmarks = [];
+function esc(s){
+return String(s||'').replace(
+/[&<>"]/g,
+c=>({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;'
+}[c])
+);
 }
 
-function esc(value){
-  return String(value || "")
-    .replace(/[&<>"]/g,function(c){
-      return {
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;"
-      }[c];
-    });
+function saveSettings(){
+localStorage.setItem(
+'instawebSettings',
+JSON.stringify(settings)
+);
+applySettings();
 }
 
-function norm(value){
-
-  const v = String(value || "").trim();
-
-  if(!v){
-    return "https://www.google.com";
-  }
-
-  if(/^https?:\/\//i.test(v)){
-    return v;
-  }
-
-  if(/^[\w.-]+\.[a-z]{2,}/i.test(v)){
-    return "https://" + v;
-  }
-
-  return "https://www.google.com/search?q=" +
-    encodeURIComponent(v);
+function saveSites(){
+localStorage.setItem(
+'instawebSites',
+JSON.stringify(sites)
+);
 }
 
-function go(value){
+function applySettings(){
+document.documentElement.style.setProperty(
+'--accent',
+settings.accent
+);
 
-  const url = norm(value);
+document.documentElement.style.setProperty(
+'--glass',
+settings.glass+'px'
+);
 
-  tabs[active].url = url;
-  tabs[active].title = url;
+document.documentElement.style.setProperty(
+'--radius',
+settings.radius+'px'
+);
 
-  screen = "browser";
+document.documentElement.style.setProperty(
+'--speed',
+settings.speed+'s'
+);
 
-  render();
+document.documentElement.style.setProperty(
+'--font',
+settings.font
+);
+
+document.body.style.fontFamily=
+settings.font+',Inter,Roboto,Arial,sans-serif';
+}
+
+function engineUrl(q){
+const x=encodeURIComponent(q);
+
+if(settings.engine==='duck')
+return 'https://duckduckgo.com/?q='+x;
+
+if(settings.engine==='bing')
+return 'https://www.bing.com/search?q='+x;
+
+if(settings.engine==='yandex')
+return 'https://yandex.com/search/?text='+x;
+
+if(settings.engine==='ecosia')
+return 'https://www.ecosia.org/search?q='+x;
+
+if(settings.engine==='brave')
+return 'https://search.brave.com/search?q='+x;
+
+return 'https://www.google.com/search?q='+x;
+}
+
+function norm(v){
+v=v.trim();
+
+if(!v)
+return engineUrl('');
+
+if(/^https?:\/\//i.test(v))
+return v;
+
+if(/^[\w.-]+\.[a-z]{2,}/i.test(v))
+return 'https://'+v;
+
+return engineUrl(v);
+}
+
+function go(v){
+const u=norm(v);
+
+tabs[active].url=u;
+tabs[active].title=u;
+
+screen='browser';
+
+render();
 }
 
 function home(){
-  screen = "home";
-  render();
+screen='home';
+render();
 }
 
 function browser(){
-  screen = "browser";
-  render();
+screen='browser';
+render();
 }
 
-function render(){
+function toast(text){
+const old=document.querySelector('.toast');
 
-  const app = document.getElementById("app");
+if(old)
+old.remove();
 
-  if(!app){
-    return;
-  }
+const t=document.createElement('div');
 
-  if(screen === "browser"){
-    renderBrowser();
-    return;
-  }
+t.className='toast';
+t.textContent=text;
 
-  if(screen === "tabs"){
-    renderTabs();
-    return;
-  }
+document.body.appendChild(t);
 
-  if(screen === "history"){
-    renderHistory();
-    return;
-  }
+requestAnimationFrame(()=>{
+t.classList.add('show');
+});
 
-  if(screen === "bookmarks"){
-    renderBookmarks();
-    return;
-  }
+setTimeout(()=>{
+t.classList.remove('show');
 
-  if(screen === "settings"){
-    renderSettings();
-    return;
-  }
+setTimeout(()=>{
+t.remove();
+},300);
 
-  renderHome();
+},1800);
+  function render(){
+const app=document.getElementById('app');
+
+if(screen==='browser'){
+app.innerHTML=`
+<div class="browser">
+
+<div class="bar">
+<button onclick="A.back()">‹</button>
+
+<input
+id="addr"
+value="${esc(tabs[active].url)}"
+onkeydown="if(event.key==='Enter')go(this.value)"
+>
+
+<button onclick="A.refresh()">↻</button>
+</div>
+
+<div class="webframe" id="webframe">
+<div class="loading" id="loading">
+<div class="loader"></div>
+</div>
+</div>
+
+<div class="tools">
+<button onclick="A.back()">‹</button>
+<button onclick="A.forward()">›</button>
+<button onclick="home()">⌂</button>
+<button onclick="bookmark()">☆</button>
+<button onclick="tabsPanel()">▢</button>
+<button onclick="menu()">☰</button>
+</div>
+
+</div>
+`;
+
+A.navigate(tabs[active].url);
+return;
 }
 
-function renderHome(){
-
-  const app = document.getElementById("app");
-
-  app.innerHTML = `
-    <div class="home">
-
-      <div class="top">
-        <div class="brand">
-          <div class="logo">I</div>
-          <div class="brand-name">Instaweb</div>
-        </div>
-
-        <button class="icon-btn"
-          onclick="openSettings()">⚙</button>
-      </div>
-
-      <div class="hero">
-        <h1>Твой интернет.<br>Твоё пространство.</h1>
-
-        <p>
-          Быстрый и простой браузер,
-          созданный именно под тебя.
-        </p>
-      </div>
-
-      <div class="search">
-
-        <input
-          id="q"
-          autocomplete="off"
-          placeholder="Поиск или адрес сайта"
-          onkeydown="if(event.key==='Enter')go(this.value)"
-        >
-
-        <button
-          onclick="go(document.getElementById('q').value)">
-          →
-        </button>
-
-      </div>
-
-      <div class="section">
-
-        <div class="section-title">
-          БЫСТРЫЙ ДОСТУП
-        </div>
-
-        <div class="sites">
-
-          <button class="site"
-            onclick="go('https://www.google.com')">
-            <div class="site-icon">G</div>
-            <small>Google</small>
-          </button>
-
-          <button class="site"
-            onclick="go('https://www.youtube.com')">
-            <div class="site-icon">▶</div>
-            <small>YouTube</small>
-          </button>
-
-          <button class="site"
-            onclick="go('https://wikipedia.org')">
-            <div class="site-icon">W</div>
-            <small>Wikipedia</small>
-          </button>
-
-        </div>
-
-      </div>
-
-      <div class="card">
-
-        <h2>Instaweb</h2>
-
-        <p>
-          Минималистичный браузер
-          с удобной навигацией и
-          стеклянным интерфейсом.
-        </p>
-
-      </div>
-
-    </div>
-
-    ${homeNav()}
-  `;
+if(screen==='tabs'){
+tabsPanel();
+return;
 }
 
-function homeNav(){
-
-  return `
-    <div class="bottom">
-
-      <button class="nav active"
-        onclick="home()">
-        ⌂
-        <small>Главная</small>
-      </button>
-
-      <button class="nav"
-        onclick="openHistory()">
-        ◷
-        <small>История</small>
-      </button>
-
-      <button class="nav"
-        onclick="openTabs()">
-        □
-        <small>Вкладки</small>
-      </button>
-
-      <button class="nav"
-        onclick="openSettings()">
-        ☰
-        <small>Меню</small>
-      </button>
-
-    </div>
-  `;
+if(screen==='history'){
+historyPanel();
+return;
 }
 
-function renderBrowser(){
-
-  const app = document.getElementById("app");
-
-  const current =
-    tabs[active] ||
-    {url:"https://www.google.com",title:"Google"};
-
-  app.innerHTML = `
-    <div class="browser">
-
-      <div class="browser-bar">
-
-        <button onclick="nativeBack()">‹</button>
-
-        <input
-          class="address"
-          id="addr"
-          value="${esc(current.url)}"
-          onkeydown="if(event.key==='Enter')go(this.value)"
-        >
-
-        <button onclick="nativeRefresh()">↻</button>
-
-      </div>
-
-      <div
-        class="webframe"
-        id="webframe">
-      </div>
-
-      <div class="browser-tools">
-
-        <button onclick="nativeBack()">‹</button>
-
-        <button onclick="nativeForward()">›</button>
-
-        <button onclick="saveBookmark()">☆</button>
-
-        <button onclick="openTabs()">□</button>
-
-        <button onclick="openSettings()">☰</button>
-
-      </div>
-
-    </div>
-  `;
-
-  if(A.navigate){
-    A.navigate(current.url);
-  }
+if(screen==='bookmarks'){
+bookmarkPanel();
+return;
 }
 
-function nativeBack(){
-
-  if(A.back){
-    A.back();
-  }
+if(screen==='settings'){
+settingsPanel();
+return;
 }
 
-function nativeForward(){
+app.innerHTML=`
+<div class="page">
 
-  if(A.forward){
-    A.forward();
-  }
+<div class="top">
+
+<div class="brand">
+<div class="logo">I</div>
+<div class="name">Instaweb</div>
+</div>
+
+<button class="gear" onclick="settingsPanel()">⚙</button>
+
+</div>
+
+<h1>
+Что будем искать
+<span class="muted">?</span>
+</h1>
+
+<div class="search">
+
+<input
+id="q"
+placeholder="Поиск или адрес сайта"
+onkeydown="if(event.key==='Enter')go(this.value)"
+>
+
+<button onclick="go(document.getElementById('q').value)">
+→
+</button>
+
+</div>
+
+<div class="section">
+
+<div class="sectionHead">
+<h2>Быстрый доступ</h2>
+
+<button
+class="edit"
+onclick="customizeSites()"
+>
+Изменить
+</button>
+</div>
+
+<div class="sites">
+
+${sites.map((site,i)=>`
+
+<button
+class="site"
+onclick="go('${esc(site.url)}')"
+>
+
+<span class="icon">
+${esc(site.icon||site.title.charAt(0))}
+</span>
+
+<small>
+${esc(site.title)}
+</small>
+
+</button>
+
+`).join('')}
+
+</div>
+
+</div>
+
+<div class="discover">
+
+<small class="muted">
+ПОИСКОВИК
+</small>
+
+<h2>
+${engineName()}
+</h2>
+
+<div class="muted">
+Настрой браузер под себя в ⚙.
+</div>
+
+</div>
+
+</div>
+
+${nav()}
+`;
 }
 
-function nativeRefresh(){
 
-  if(A.refresh){
-    A.refresh();
-  }
+function nav(){
+
+return `
+<div class="bottom">
+
+<button
+class="nav active"
+onclick="home()"
+>
+⌂
+<small>Главная</small>
+</button>
+
+<button
+class="nav"
+onclick="historyPanel()"
+>
+◷
+<small>История</small>
+</button>
+
+<button
+class="nav"
+onclick="tabsPanel()"
+>
+▢
+<small>Вкладки</small>
+</button>
+
+<button
+class="nav"
+onclick="menu()"
+>
+☰
+<small>Меню</small>
+</button>
+
+</div>
+`;
 }
 
-function openTabs(){
 
-  screen = "tabs";
-  render();
+function engineName(){
+
+if(settings.engine==='duck')
+return 'DuckDuckGo';
+
+if(settings.engine==='bing')
+return 'Bing';
+
+if(settings.engine==='yandex')
+return 'Яндекс';
+
+if(settings.engine==='ecosia')
+return 'Ecosia';
+
+if(settings.engine==='brave')
+return 'Brave Search';
+
+return 'Google';
 }
 
-function renderTabs(){
 
-  const app = document.getElementById("app");
+function panel(title,body){
 
-  let html = "";
+document.getElementById('app').innerHTML=`
 
-  tabs.forEach(function(t,i){
+<div class="panel">
 
-    html += `
-      <div class="item">
+<button
+class="close"
+onclick="home()"
+>
+Закрыть
+</button>
 
-        <div class="item-title">
-          ${esc(t.title)}
-        </div>
+<div class="panelTitle">
+${title}
+</div>
 
-        <div class="item-url">
-          ${esc(t.url)}
-        </div>
+${body}
 
-        <button class="action"
-          onclick="active=${i};browser()">
-          Открыть
-        </button>
-
-        <button class="action"
-          onclick="closeTab(${i})">
-          Закрыть
-        </button>
-
-      </div>
-    `;
-
-  });
-
-  html += `
-    <button class="action"
-      onclick="newTab()">
-      + Новая вкладка
-    </button>
-  `;
-
-  app.innerHTML = `
-    <div class="panel">
-
-      <div class="panel-top">
-        <button class="close"
-          onclick="home()">‹</button>
-        <h2>Вкладки</h2>
-      </div>
-
-      ${html}
-
-    </div>
-  `;
+</div>
+`;
 }
 
-function newTab(){
 
-  tabs.push({
-    url:"https://www.google.com",
-    title:"Google"
-  });
+function tabsPanel(){
 
-  active = tabs.length - 1;
+panel(
+'Вкладки',
 
-  browser();
+tabs.map((t,i)=>`
+
+<div class="card">
+
+<b>${esc(t.title)}</b>
+
+<div class="muted">
+${esc(t.url)}
+</div>
+
+<button
+class="action"
+onclick="active=${i};browser()"
+>
+Открыть
+</button>
+
+<button
+class="action"
+onclick="
+tabs.splice(${i},1);
+if(!tabs.length)
+tabs=[{
+url:'https://www.google.com',
+title:'Google'
+}];
+active=Math.min(active,tabs.length-1);
+tabsPanel()
+"
+>
+Закрыть
+</button>
+
+</div>
+
+`).join('')
+
++
+
+`
+
+<div class="card">
+
+<button
+class="action"
+onclick="
+tabs.push({
+url:'https://www.google.com',
+title:'Google'
+});
+active=tabs.length-1;
+browser()
+"
+>
++ Новая вкладка
+</button>
+
+</div>
+`
+);
 }
 
-function closeTab(i){
 
-  tabs.splice(i,1);
+function historyPanel(){
 
-  if(tabs.length === 0){
+let h=[];
 
-    tabs.push({
-      url:"https://www.google.com",
-      title:"Google"
-    });
-
-  }
-
-  active = Math.min(
-    active,
-    tabs.length - 1
-  );
-
-  renderTabs();
+try{
+h=JSON.parse(A.getHistory()||'[]');
+}catch(e){
+h=[];
 }
 
-function openHistory(){
+panel(
+'История',
 
-  screen = "history";
-  render();
+`
+<button
+class="action"
+onclick="
+A.clearHistory();
+historyPanel();
+toast('История очищена')
+"
+>
+Очистить историю
+</button>
+
+${
+h.length
+?
+h.map(x=>`
+
+<div class="card">
+
+<b>
+${esc(x.title||x.url)}
+</b>
+
+<div class="muted">
+${esc(x.url)}
+</div>
+
+</div>
+
+`).join('')
+:
+`
+<p class="muted">
+История пока пустая
+</p>
+`
+}
+`
+);
 }
 
-function renderHistory(){
 
-  const app = document.getElementById("app");
+function bookmark(){
 
-  let history = [];
+if(
+!bookmarks.some(
+x=>x.url===tabs[active].url
+)
+){
 
-  try{
-    if(A.getHistory){
-      history = JSON.parse(
-        A.getHistory() || "[]"
-      );
-    }
-  }catch(e){
-    history = [];
-  }
+bookmarks.unshift({
+title:tabs[active].title,
+url:tabs[active].url
+});
 
-  let html = "";
+A.saveBookmarks(
+JSON.stringify(bookmarks)
+);
 
-  if(history.length === 0){
+toast('Добавлено в закладки');
 
-    html = `
-      <div class="empty">
-        История пока пуста
-      </div>
-    `;
+}else{
 
-  }else{
+toast('Уже в закладках');
 
-    history.forEach(function(x){
-
-      html += `
-        <div class="item">
-
-          <div class="item-title">
-            ${esc(x.title || x.url)}
-          </div>
-
-          <div class="item-url">
-            ${esc(x.url)}
-          </div>
-
-        </div>
-      `;
-
-    });
-
-  }
-
-  app.innerHTML = `
-    <div class="panel">
-
-      <div class="panel-top">
-        <button class="close"
-          onclick="home()">‹</button>
-        <h2>История</h2>
-      </div>
-
-      ${html}
-
-      <button class="action"
-        onclick="clearHistory()">
-        Очистить историю
-      </button>
-
-    </div>
-  `;
+}
 }
 
-function clearHistory(){
 
-  if(A.clearHistory){
-    A.clearHistory();
-  }
+function bookmarkPanel(){
 
-  renderHistory();
+panel(
+'Закладки',
+
+bookmarks.length
+?
+
+bookmarks.map((x,i)=>`
+
+<div
+class="card"
+onclick="go('${esc(x.url)}')"
+>
+
+<b>
+${esc(x.title)}
+</b>
+
+<div class="muted">
+${esc(x.url)}
+</div>
+
+</div>
+
+`).join('')
+
+:
+
+`
+<p class="muted">
+Закладок пока нет
+</p>
+`
+);
 }
 
-function saveBookmark(){
 
-  const current = tabs[active];
+function settingsPanel(){
 
-  if(!bookmarks.some(function(x){
-    return x.url === current.url;
-  })){
+panel(
+'Настройки',
 
-    bookmarks.unshift({
-      title:current.title,
-      url:current.url
-    });
+`
 
-    if(A.saveBookmarks){
-      A.saveBookmarks(
-        JSON.stringify(bookmarks)
-      );
-    }
-  }
+<div class="settingBlock">
+
+<h3>Поисковик</h3>
+
+<select
+class="searchEngine"
+onchange="
+settings.engine=this.value;
+saveSettings();
+render()
+"
+>
+
+<option value="google"
+${settings.engine==='google'?'selected':''}>
+Google
+</option>
+
+<option value="duck"
+${settings.engine==='duck'?'selected':''}>
+DuckDuckGo
+</option>
+
+<option value="bing"
+${settings.engine==='bing'?'selected':''}>
+Bing
+</option>
+
+<option value="yandex"
+${settings.engine==='yandex'?'selected':''}>
+Яндекс
+</option>
+
+<option value="ecosia"
+${settings.engine==='ecosia'?'selected':''}>
+Ecosia
+</option>
+
+<option value="brave"
+${settings.engine==='brave'?'selected':''}>
+Brave Search
+</option>
+
+</select>
+
+</div>
+
+
+<div class="settingBlock">
+
+<h3>Цвет интерфейса</h3>
+
+<div class="choice">
+
+${[
+'#8b7cff',
+'#4d9cff',
+'#00c896',
+'#ff5c8a',
+'#ff9f43',
+'#ffffff'
+].map(c=>`
+
+<button
+class="${settings.accent===c?'selected':''}"
+style="background:${c}"
+onclick="
+settings.accent='${c}';
+saveSettings();
+applySettings();
+settingsPanel()
+"
+>
+</button>
+
+`).join('')}
+
+</div>
+
+</div>
+
+
+<div class="settingBlock">
+
+<h3>Шрифт</h3>
+
+<div class="choice">
+
+${[
+'Inter',
+'Roboto',
+'Arial',
+'Georgia',
+'monospace'
+].map(f=>`
+
+<button
+class="${settings.font===f?'selected':''}"
+style="font-family:${f}"
+onclick="
+settings.font='${f}';
+saveSettings();
+applySettings();
+settingsPanel()
+"
+>
+${f}
+</button>
+
+`).join('')}
+
+</div>
+
+</div>
+
+
+<div class="settingBlock">
+
+<h3>Прозрачность стекла</h3>
+
+<input
+class="range"
+type="range"
+min="4"
+max="35"
+value="${settings.glass}"
+oninput="
+settings.glass=this.value;
+saveSettings();
+applySettings()
+"
+>
+
+</div>
+
+
+<div class="settingBlock">
+
+<h3>Скругление</h3>
+
+<input
+class="range"
+type="range"
+min="10"
+max="40"
+value="${settings.radius}"
+oninput="
+settings.radius=this.value;
+saveSettings();
+applySettings()
+"
+>
+
+</div>
+
+
+<div class="settingBlock">
+
+<h3>Скорость анимаций</h3>
+
+<input
+class="range"
+type="range"
+min=".1"
+max=".6"
+step=".05"
+value="${settings.speed}"
+oninput="
+settings.speed=this.value;
+saveSettings();
+applySettings()
+"
+>
+
+</div>
+
+
+<div class="preview">
+
+<h3>Предпросмотр</h3>
+
+<div class="previewBox">
+Instaweb
+</div>
+
+</div>
+
+
+<div class="settingBlock">
+
+<div class="row">
+
+<span>Приватный режим</span>
+
+<button
+onclick="
+privateMode=!privateMode;
+A.setPrivateMode(privateMode);
+settingsPanel()
+"
+>
+${privateMode?'Включён':'Выключен'}
+</button>
+
+</div>
+
+
+<div class="row">
+
+<span>Закладки</span>
+
+<button onclick="bookmarkPanel()">
+Открыть
+</button>
+
+</div>
+
+
+<div class="row">
+
+<span>История</span>
+
+<button onclick="historyPanel()">
+Открыть
+</button>
+
+</div>
+
+
+<div class="row">
+
+<span>Быстрый доступ</span>
+
+<button onclick="customizeSites()">
+Настроить
+</button>
+
+</div>
+
+</div>
+
+`
+);
 }
 
-function openBookmarks(){
 
-  screen = "bookmarks";
-  render();
+function customizeSites(){
+
+panel(
+'Быстрый доступ',
+
+`
+
+<p class="muted">
+Добавляй свои сайты и меняй быстрый доступ.
+</p>
+
+${sites.map((site,i)=>`
+
+<div class="card">
+
+<b>
+${esc(site.icon||site.title.charAt(0))}
+&nbsp;
+${esc(site.title)}
+</b>
+
+<div class="muted">
+${esc(site.url)}
+</div>
+
+<button
+class="action"
+onclick="
+sites.splice(${i},1);
+saveSites();
+customizeSites()
+"
+>
+Удалить
+</button>
+
+</div>
+
+`).join('')}
+
+
+<div class="addSite">
+
+<input
+id="siteName"
+placeholder="Название"
+>
+
+<input
+id="siteUrl"
+placeholder="https://..."
+>
+
+<button onclick="addSite()">
++
+</button>
+
+</div>
+
+`
+);
 }
 
-function renderBookmarks(){
 
-  const app = document.getElementById("app");
+function addSite(){
 
-  if(bookmarks.length === 0){
+const name=
+document.getElementById('siteName').value.trim();
 
-    app.innerHTML = `
-      <div class="panel">
+const url=
+document.getElementById('siteUrl').value.trim();
 
-        <div class="panel-top">
-          <button class="close"
-            onclick="home()">‹</button>
-          <h2>Закладки</h2>
-        </div>
+if(!name||!url){
 
-        <div class="empty">
-          Закладок пока нет
-        </div>
+toast('Заполни название и адрес');
 
-      </div>
-    `;
-
-    return;
-  }
-
-  let html = "";
-
-  bookmarks.forEach(function(x){
-
-    html += `
-      <div class="item"
-        onclick="go('${esc(x.url)}')">
-
-        <div class="item-title">
-          ${esc(x.title)}
-        </div>
-
-        <div class="item-url">
-          ${esc(x.url)}
-        </div>
-
-      </div>
-    `;
-
-  });
-
-  app.innerHTML = `
-    <div class="panel">
-
-      <div class="panel-top">
-        <button class="close"
-          onclick="home()">‹</button>
-        <h2>Закладки</h2>
-      </div>
-
-      ${html}
-
-    </div>
-  `;
+return;
 }
 
-function openSettings(){
+sites.push({
 
-  screen = "settings";
-  render();
+title:name,
+url:normalizeSite(url),
+icon:name.charAt(0).toUpperCase()
+
+});
+
+saveSites();
+
+toast('Сайт добавлен');
+
+customizeSites();
 }
 
-function renderSettings(){
 
-  const app = document.getElementById("app");
+function normalizeSite(url){
 
-  app.innerHTML = `
-    <div class="panel">
+if(/^https?:\/\//i.test(url))
+return url;
 
-      <div class="panel-top">
-        <button class="close"
-          onclick="home()">‹</button>
-
-        <h2>Меню</h2>
-      </div>
-
-      <div class="item">
-        <div class="item-title">
-          🏠 Главная
-        </div>
-
-        <button class="action"
-          onclick="home()">
-          Открыть
-        </button>
-      </div>
-
-      <div class="item">
-        <div class="item-title">
-          ◷ История
-        </div>
-
-        <button class="action"
-          onclick="openHistory()">
-          Открыть
-        </button>
-      </div>
-
-      <div class="item">
-        <div class="item-title">
-          ☆ Закладки
-        </div>
-
-        <button class="action"
-          onclick="openBookmarks()">
-          Открыть
-        </button>
-      </div>
-
-      <div class="item">
-        <div class="item-title">
-          □ Вкладки
-        </div>
-
-        <button class="action"
-          onclick="openTabs()">
-          Открыть
-        </button>
-      </div>
-
-      <div class="item">
-        <div class="item-title">
-          Приватный режим
-        </div>
-
-        <button class="action"
-          onclick="togglePrivate()">
-          ${privateMode ? "Выключить" : "Включить"}
-        </button>
-      </div>
-
-    </div>
-  `;
+return 'https://'+url;
 }
 
-function togglePrivate(){
 
-  privateMode = !privateMode;
+function menu(){
 
-  if(A.setPrivateMode){
-    A.setPrivateMode(privateMode);
-  }
+panel(
+'Меню',
 
-  renderSettings();
+`
+
+<div class="card">
+
+<button
+class="action"
+onclick="home()"
+>
+⌂ Домой
+</button>
+
+</div>
+
+
+<div class="card">
+
+<button
+class="action"
+onclick="settingsPanel()"
+>
+⚙ Настройки
+</button>
+
+</div>
+
+
+<div class="card">
+
+<button
+class="action"
+onclick="tabsPanel()"
+>
+▢ Вкладки
+</button>
+
+</div>
+
+
+<div class="card">
+
+<button
+class="action"
+onclick="historyPanel()"
+>
+◷ История
+</button>
+
+</div>
+
+
+<div class="card">
+
+<button
+class="action"
+onclick="bookmarkPanel()"
+>
+☆ Закладки
+</button>
+
+</div>
+
+`
+);
 }
 
-window.instawebSetUrl = function(url){
 
-  const addr =
-    document.getElementById("addr");
+window.instawebNativeUrl=function(u){
 
-  if(addr){
-    addr.value = url || "";
-  }
+const i=document.getElementById('addr');
+
+if(i)
+i.value=u;
+
+const loading=
+document.getElementById('loading');
+
+if(loading)
+loading.classList.add('hide');
+
 };
 
-window.instawebNativeUrl = function(url){
 
-  const addr =
-    document.getElementById("addr");
+window.instawebLoading=function(){
 
-  if(addr){
-    addr.value = url || "";
-  }
+const loading=
+document.getElementById('loading');
+
+if(loading)
+loading.classList.remove('hide');
+
 };
+
+
+window.instawebLoaded=function(){
+
+const loading=
+document.getElementById('loading');
+
+if(loading)
+loading.classList.add('hide');
+
+};
+
+
+applySettings();
 
 render();
+
 </script>
 
 </body>

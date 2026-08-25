@@ -8,424 +8,365 @@
 
 <style>
 *{
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
 html,body{
-    margin:0;
-    padding:0;
-    width:100%;
-    min-height:100%;
-    background:#08090c;
-    color:#f5f5f7;
-    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#08090c;
+  color:#fff;
+  font-family:Arial,sans-serif;
 }
 
-body{
-    overflow-x:hidden;
-}
-
-button,
-input{
-    font:inherit;
+button,input{
+  font:inherit;
 }
 
 button{
-    border:0;
-    color:inherit;
-    cursor:pointer;
+  border:0;
+  color:inherit;
 }
 
 #app{
-    min-height:100vh;
+  width:100%;
+  height:100%;
 }
 
-/* ---------- HOME ---------- */
-
-.page{
-    min-height:100vh;
-    padding:22px 20px 105px;
-    position:relative;
-    overflow:hidden;
-    background:
-        radial-gradient(circle at 20% 5%,rgba(120,150,255,.16),transparent 30%),
-        radial-gradient(circle at 90% 25%,rgba(190,110,255,.12),transparent 28%),
-        linear-gradient(145deg,#08090c,#101116 55%,#090a0d);
-}
-
-.page:before{
-    content:"";
-    position:absolute;
-    width:260px;
-    height:260px;
-    border-radius:50%;
-    background:rgba(100,150,255,.08);
-    filter:blur(70px);
-    top:-90px;
-    left:-80px;
-    pointer-events:none;
+.home{
+  min-height:100%;
+  padding:28px 20px 110px;
+  background:
+    radial-gradient(circle at 20% 10%,rgba(110,120,255,.18),transparent 35%),
+    radial-gradient(circle at 90% 40%,rgba(0,220,255,.10),transparent 35%),
+    #08090c;
 }
 
 .top{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    position:relative;
-    z-index:2;
-}
-
-.brand{
-    display:flex;
-    align-items:center;
-    gap:11px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:55px;
 }
 
 .logo{
-    width:43px;
-    height:43px;
-    border-radius:15px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:23px;
-    font-weight:800;
-    background:linear-gradient(145deg,#ffffff,#9ca3af);
-    color:#101116;
-    box-shadow:
-        0 8px 25px rgba(0,0,0,.35),
-        inset 0 1px 1px rgba(255,255,255,.8);
+  width:48px;
+  height:48px;
+  border-radius:17px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  font-weight:bold;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.15);
+  backdrop-filter:blur(20px);
 }
 
-.name{
-    font-size:22px;
-    font-weight:750;
-    letter-spacing:-.5px;
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-.gear{
-    width:45px;
-    height:45px;
-    border-radius:16px;
-    background:rgba(255,255,255,.09);
-    backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
-    border:1px solid rgba(255,255,255,.10);
-    font-size:21px;
+.brand-name{
+  font-size:23px;
+  font-weight:700;
 }
 
-/* ---------- HERO ---------- */
+.icon-btn{
+  width:48px;
+  height:48px;
+  border-radius:17px;
+  background:rgba(255,255,255,.09);
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(20px);
+  font-size:22px;
+}
 
 .hero{
-    margin-top:58px;
-    position:relative;
-    z-index:1;
+  margin-bottom:28px;
 }
 
 .hero h1{
-    margin:0;
-    font-size:38px;
-    line-height:1.05;
-    letter-spacing:-1.8px;
+  margin:0;
+  font-size:38px;
+  line-height:1.05;
+  letter-spacing:-1.5px;
 }
 
-.hero h1 span{
-    color:#858992;
-}
-
-.sub{
-    margin-top:13px;
-    color:#858992;
-    font-size:15px;
-    line-height:1.45;
-}
-
-/* ---------- SEARCH ---------- */
-
-.searchWrap{
-    margin-top:28px;
+.hero p{
+  margin:14px 0 0;
+  color:#9699a5;
+  font-size:15px;
+  line-height:1.5;
 }
 
 .search{
-    height:64px;
-    padding:6px;
-    display:flex;
-    align-items:center;
-    gap:6px;
-    border-radius:22px;
-
-    background:rgba(255,255,255,.085);
-    border:1px solid rgba(255,255,255,.12);
-
-    backdrop-filter:blur(28px);
-    -webkit-backdrop-filter:blur(28px);
-
-    box-shadow:
-        0 18px 50px rgba(0,0,0,.25),
-        inset 0 1px 1px rgba(255,255,255,.08);
-}
-
-.searchIcon{
-    width:46px;
-    text-align:center;
-    font-size:22px;
-    color:#aeb2bb;
+  display:flex;
+  align-items:center;
+  height:62px;
+  padding:6px;
+  border-radius:22px;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 10px 40px rgba(0,0,0,.25);
+  backdrop-filter:blur(25px);
 }
 
 .search input{
-    min-width:0;
-    flex:1;
-    height:52px;
-    border:0;
-    outline:0;
-    background:transparent;
-    color:white;
-    font-size:16px;
+  min-width:0;
+  flex:1;
+  height:100%;
+  padding:0 16px;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:#fff;
+  font-size:16px;
 }
 
 .search input::placeholder{
-    color:#858992;
+  color:#8b8e99;
 }
 
 .search button{
-    width:52px;
-    height:52px;
-    border-radius:17px;
-    background:rgba(255,255,255,.13);
-    font-size:24px;
-    transition:.2s;
+  width:50px;
+  height:50px;
+  border-radius:17px;
+  background:#fff;
+  color:#111;
+  font-size:24px;
 }
-
-.search button:active{
-    transform:scale(.92);
-}
-
-/* ---------- QUICK ACCESS ---------- */
 
 .section{
-    margin-top:34px;
+  margin-top:35px;
 }
 
-.sectionTitle{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:14px;
-}
-
-.sectionTitle h2{
-    margin:0;
-    font-size:18px;
-}
-
-.sectionTitle span{
-    color:#737780;
-    font-size:13px;
+.section-title{
+  color:#999ca8;
+  font-size:13px;
+  letter-spacing:1px;
+  margin-bottom:14px;
 }
 
 .sites{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:11px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
 }
 
 .site{
-    min-height:105px;
-    padding:14px 8px;
-    border-radius:22px;
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-
-    background:rgba(255,255,255,.07);
-    border:1px solid rgba(255,255,255,.09);
-
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-
-    transition:transform .18s,background .18s;
+  min-height:105px;
+  border-radius:22px;
+  background:rgba(255,255,255,.075);
+  border:1px solid rgba(255,255,255,.10);
+  backdrop-filter:blur(20px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
 }
 
-.site:active{
-    transform:scale(.95);
-    background:rgba(255,255,255,.13);
-}
-
-.icon{
-    width:43px;
-    height:43px;
-    border-radius:14px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:rgba(255,255,255,.11);
-    font-size:20px;
-    font-weight:700;
+.site-icon{
+  width:43px;
+  height:43px;
+  border-radius:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,255,255,.12);
+  font-size:21px;
 }
 
 .site small{
-    color:#c9cbd0;
-    font-size:12px;
-}
-
-/* ---------- DISCOVER ---------- */
-
-.discover{
-    margin-top:28px;
-    padding:23px;
-    min-height:170px;
-    border-radius:27px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.12),
-            rgba(255,255,255,.045)
-        );
-
-    border:1px solid rgba(255,255,255,.11);
-
-    backdrop-filter:blur(25px);
-    -webkit-backdrop-filter:blur(25px);
-
-    box-shadow:
-        inset 0 1px 1px rgba(255,255,255,.08),
-        0 18px 45px rgba(0,0,0,.2);
-}
-
-.discover .label{
-    color:#747982;
-    font-size:11px;
-    letter-spacing:2px;
-    font-weight:700;
-}
-
-.discover h2{
-    margin:12px 0 8px;
-    font-size:27px;
-    line-height:1.05;
-    letter-spacing:-1px;
-}
-
-/* ---------- BOTTOM NAV ---------- */
-
-.bottom{
-    position:fixed;
-    z-index:20;
-    left:14px;
-    right:14px;
-    bottom:12px;
-    height:70px;
-
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:5px;
-    padding:6px;
-
-    border-radius:25px;
-
-    background:rgba(20,21,26,.78);
-    border:1px solid rgba(255,255,255,.11);
-
-    backdrop-filter:blur(30px);
-    -webkit-backdrop-filter:blur(30px);
-
-    box-shadow:
-        0 12px 40px rgba(0,0,0,.45),
-        inset 0 1px 1px rgba(255,255,255,.08);
-}
-
-.nav{
-    background:transparent;
-    border-radius:19px;
-    color:#777b84;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:2px;
-    font-size:21px;
-}
-
-.nav small{
-    font-size:10px;
-}
-
-.nav.active{
-    color:white;
-    background:rgba(255,255,255,.09);
-}
-
-/* ---------- PANELS ---------- */
-
-.panel{
-    min-height:100vh;
-    padding:24px 20px 100px;
-    background:
-        radial-gradient(circle at 80% 0%,rgba(130,150,255,.12),transparent 30%),
-        #090a0e;
-}
-
-.panel h2{
-    margin:35px 0 20px;
-    font-size:30px;
-}
-
-.close{
-    padding:12px 18px;
-    border-radius:16px;
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.09);
+  color:#d4d5da;
 }
 
 .card{
-    padding:17px;
-    margin-bottom:11px;
-    border-radius:20px;
-    background:rgba(255,255,255,.065);
-    border:1px solid rgba(255,255,255,.08);
+  margin-top:30px;
+  padding:22px;
+  border-radius:25px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.10);
+  backdrop-filter:blur(25px);
 }
 
-.card b{
-    display:block;
-    margin-bottom:6px;
+.card h2{
+  margin:0 0 8px;
+  font-size:22px;
 }
 
-.card .muted{
-    word-break:break-word;
+.card p{
+  margin:0;
+  color:#9295a0;
+  line-height:1.5;
 }
 
-.card button,
-.row button{
-    margin-top:12px;
-    padding:10px 14px;
-    border-radius:13px;
-    background:rgba(255,255,255,.10);
+.bottom{
+  position:fixed;
+  left:14px;
+  right:14px;
+  bottom:14px;
+  height:72px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  padding:7px;
+  border-radius:26px;
+  background:rgba(25,26,32,.78);
+  border:1px solid rgba(255,255,255,.13);
+  box-shadow:0 15px 45px rgba(0,0,0,.45);
+  backdrop-filter:blur(30px);
 }
 
-.row{
-    padding:18px 0;
-    border-bottom:1px solid rgba(255,255,255,.08);
+.nav{
+  border-radius:20px;
+  background:transparent;
+  color:#858894;
+  font-size:23px;
 }
 
-.muted{
-    color:#858992;
+.nav.active{
+  background:rgba(255,255,255,.11);
+  color:#fff;
 }
 
-/* ---------- SMALL DEVICES ---------- */
+.nav small{
+  display:block;
+  margin-top:3px;
+  font-size:10px;
+}
 
-@media(max-width:370px){
-    .hero h1{
-        font-size:33px;
-    }
+.browser{
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  background:#fff;
+}
 
-    .page{
-        padding-left:15px;
-        padding-right:15px;
-    }
+.browser-bar{
+  flex-shrink:0;
+  height:76px;
+  padding:9px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  background:#08090c;
+}
+
+.browser-bar button{
+  width:52px;
+  height:52px;
+  flex-shrink:0;
+  border-radius:18px;
+  background:rgba(255,255,255,.08);
+  font-size:24px;
+}
+
+.address{
+  flex:1;
+  min-width:0;
+  height:52px;
+  border:0;
+  outline:0;
+  border-radius:18px;
+  padding:0 16px;
+  background:rgba(255,255,255,.10);
+  color:#fff;
+  font-size:14px;
+}
+
+.webframe{
+  flex:1;
+  min-height:0;
+  background:#fff;
+}
+
+.browser-tools{
+  flex-shrink:0;
+  height:78px;
+  padding:10px;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+  background:#08090c;
+}
+
+.browser-tools button{
+  border-radius:20px;
+  background:rgba(255,255,255,.08);
+  font-size:24px;
+}
+
+.panel{
+  width:100%;
+  height:100%;
+  overflow:auto;
+  padding:25px 20px 100px;
+  background:
+    radial-gradient(circle at 80% 10%,rgba(90,100,255,.16),transparent 35%),
+    #08090c;
+}
+
+.panel-top{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:25px;
+}
+
+.panel-top h2{
+  margin:0;
+  font-size:28px;
+}
+
+.close{
+  width:45px;
+  height:45px;
+  border-radius:16px;
+  background:rgba(255,255,255,.09);
+  font-size:22px;
+}
+
+.item{
+  margin-bottom:12px;
+  padding:18px;
+  border-radius:20px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.10);
+}
+
+.item-title{
+  font-weight:bold;
+  margin-bottom:7px;
+}
+
+.item-url{
+  color:#858995;
+  font-size:12px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+.item button,
+.action{
+  margin-top:13px;
+  padding:11px 15px;
+  border-radius:14px;
+  background:rgba(255,255,255,.12);
+}
+
+.empty{
+  color:#888b96;
+  text-align:center;
+  padding:50px 20px;
 }
 </style>
 </head>
@@ -435,754 +376,695 @@ button{
 <div id="app"></div>
 
 <script>
-
-const A = window.InstawebNative;
+const A = window.InstawebNative || {};
 
 let screen = "home";
 let privateMode = false;
 
-let bookmarks = [];
-
-try{
-    bookmarks = JSON.parse(
-        A.getBookmarks() || "[]"
-    );
-}catch(e){
-    bookmarks = [];
-}
-
 let tabs = [
-    {
-        url:"https://duckduckgo.com",
-        title:"DuckDuckGo"
-    }
+  {
+    url:"https://www.google.com",
+    title:"Google"
+  }
 ];
 
 let active = 0;
 
+let bookmarks = [];
 
-/* ---------- URL ---------- */
-
-function norm(v){
-
-    v = String(v || "").trim();
-
-    if(!v){
-        return "https://duckduckgo.com";
-    }
-
-    if(
-        /^https?:\/\//i.test(v)
-    ){
-        return v;
-    }
-
-    if(
-        /^[\w.-]+\.[a-z]{2,}/i.test(v)
-    ){
-        return "https://" + v;
-    }
-
-    return "https://duckduckgo.com/?q=" +
-        encodeURIComponent(v);
+try{
+  if(A.getBookmarks){
+    bookmarks = JSON.parse(A.getBookmarks() || "[]");
+  }
+}catch(e){
+  bookmarks = [];
 }
 
-
-/* ---------- SEARCH ---------- */
-
-function search(){
-
-    const input =
-        document.getElementById("q");
-
-    if(!input){
-        return;
-    }
-
-    const value =
-        input.value.trim();
-
-    if(!value){
-        input.focus();
-        return;
-    }
-
-    const url = norm(value);
-
-    tabs[active].url = url;
-    tabs[active].title = value;
-
-    screen = "browser";
-
-    A.navigate(url);
+function esc(value){
+  return String(value || "")
+    .replace(/[&<>"]/g,function(c){
+      return {
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;"
+      }[c];
+    });
 }
 
+function norm(value){
 
-/* ---------- HOME ---------- */
+  const v = String(value || "").trim();
+
+  if(!v){
+    return "https://www.google.com";
+  }
+
+  if(/^https?:\/\//i.test(v)){
+    return v;
+  }
+
+  if(/^[\w.-]+\.[a-z]{2,}/i.test(v)){
+    return "https://" + v;
+  }
+
+  return "https://www.google.com/search?q=" +
+    encodeURIComponent(v);
+}
+
+function go(value){
+
+  const url = norm(value);
+
+  tabs[active].url = url;
+  tabs[active].title = url;
+
+  screen = "browser";
+
+  render();
+}
 
 function home(){
-
-    screen = "home";
-
-    render();
+  screen = "home";
+  render();
 }
-
-
-/* ---------- BROWSER ---------- */
 
 function browser(){
-
-    screen = "browser";
-
-    render();
+  screen = "browser";
+  render();
 }
-
-
-/* ---------- ESCAPE ---------- */
-
-function esc(s){
-
-    return String(s || "")
-        .replace(
-            /[&<>"]/g,
-            c => ({
-                "&":"&amp;",
-                "<":"&lt;",
-                ">":"&gt;",
-                "\"":"&quot;"
-            }[c])
-        );
-}
-
-
-/* ---------- NAVIGATION ---------- */
-
-function nav(){
-
-    return `
-    <div class="bottom">
-
-        <button
-            class="nav active"
-            onclick="home()"
-        >
-            ⌂
-            <small>Главная</small>
-        </button>
-
-        <button
-            class="nav"
-            onclick="historyPanel()"
-        >
-            ◷
-            <small>История</small>
-        </button>
-
-        <button
-            class="nav"
-            onclick="tabsPanel()"
-        >
-            ▢
-            <small>Вкладки</small>
-        </button>
-
-        <button
-            class="nav"
-            onclick="menu()"
-        >
-            ☰
-            <small>Меню</small>
-        </button>
-
-    </div>
-    `;
-}
-
-
-/* ---------- HOME SCREEN ---------- */
 
 function render(){
 
-    const app =
-        document.getElementById("app");
+  const app = document.getElementById("app");
 
-    if(screen === "tabs"){
-        tabsPanel(true);
-        return;
-    }
+  if(!app){
+    return;
+  }
 
-    if(screen === "history"){
-        historyPanel();
-        return;
-    }
+  if(screen === "browser"){
+    renderBrowser();
+    return;
+  }
 
-    if(screen === "bookmarks"){
-        bookmarkPanel();
-        return;
-    }
+  if(screen === "tabs"){
+    renderTabs();
+    return;
+  }
 
-    if(screen === "settings"){
-        settingsPanel();
-        return;
-    }
+  if(screen === "history"){
+    renderHistory();
+    return;
+  }
 
-    app.innerHTML = `
+  if(screen === "bookmarks"){
+    renderBookmarks();
+    return;
+  }
 
-    <div class="page">
+  if(screen === "settings"){
+    renderSettings();
+    return;
+  }
 
-        <div class="top">
+  renderHome();
+}
 
-            <div class="brand">
+function renderHome(){
 
-                <div class="logo">
-                    I
-                </div>
+  const app = document.getElementById("app");
 
-                <div class="name">
-                    Instaweb
-                </div>
+  app.innerHTML = `
+    <div class="home">
 
-            </div>
+      <div class="top">
+        <div class="brand">
+          <div class="logo">I</div>
+          <div class="brand-name">Instaweb</div>
+        </div>
 
-            <button
-                class="gear"
-                onclick="settingsPanel()"
-            >
-                ⚙
-            </button>
+        <button class="icon-btn"
+          onclick="openSettings()">⚙</button>
+      </div>
+
+      <div class="hero">
+        <h1>Твой интернет.<br>Твоё пространство.</h1>
+
+        <p>
+          Быстрый и простой браузер,
+          созданный именно под тебя.
+        </p>
+      </div>
+
+      <div class="search">
+
+        <input
+          id="q"
+          autocomplete="off"
+          placeholder="Поиск или адрес сайта"
+          onkeydown="if(event.key==='Enter')go(this.value)"
+        >
+
+        <button
+          onclick="go(document.getElementById('q').value)">
+          →
+        </button>
+
+      </div>
+
+      <div class="section">
+
+        <div class="section-title">
+          БЫСТРЫЙ ДОСТУП
+        </div>
+
+        <div class="sites">
+
+          <button class="site"
+            onclick="go('https://www.google.com')">
+            <div class="site-icon">G</div>
+            <small>Google</small>
+          </button>
+
+          <button class="site"
+            onclick="go('https://www.youtube.com')">
+            <div class="site-icon">▶</div>
+            <small>YouTube</small>
+          </button>
+
+          <button class="site"
+            onclick="go('https://wikipedia.org')">
+            <div class="site-icon">W</div>
+            <small>Wikipedia</small>
+          </button>
 
         </div>
 
+      </div>
 
-        <div class="hero">
+      <div class="card">
 
-            <h1>
-                Что будем искать
-                <span>сегодня?</span>
-            </h1>
+        <h2>Instaweb</h2>
 
-            <div class="sub">
-                Быстро. Просто. Твоё пространство
-                в интернете.
-            </div>
+        <p>
+          Минималистичный браузер
+          с удобной навигацией и
+          стеклянным интерфейсом.
+        </p>
 
-
-            <div class="searchWrap">
-
-                <div class="search">
-
-                    <div class="searchIcon">
-                        ⌕
-                    </div>
-
-                    <input
-                        id="q"
-                        autocomplete="off"
-                        autocapitalize="off"
-                        spellcheck="false"
-                        placeholder="Поиск или адрес сайта"
-                        onkeydown="
-                            if(event.key==='Enter'){
-                                search();
-                            }
-                        "
-                    >
-
-                    <button
-                        onclick="search()"
-                    >
-                        →
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="section">
-
-            <div class="sectionTitle">
-
-                <h2>
-                    Быстрый доступ
-                </h2>
-
-                <span>
-                    Твои сайты
-                </span>
-
-            </div>
-
-
-            <div class="sites">
-
-                <button
-                    class="site"
-                    onclick="
-                        A.navigate('https://youtube.com')
-                    "
-                >
-                    <span class="icon">
-                        ▶
-                    </span>
-
-                    <small>
-                        YouTube
-                    </small>
-                </button>
-
-
-                <button
-                    class="site"
-                    onclick="
-                        A.navigate('https://wikipedia.org')
-                    "
-                >
-                    <span class="icon">
-                        W
-                    </span>
-
-                    <small>
-                        Wikipedia
-                    </small>
-                </button>
-
-
-                <button
-                    class="site"
-                    onclick="
-                        A.navigate('https://duckduckgo.com')
-                    "
-                >
-                    <span class="icon">
-                        D
-                    </span>
-
-                    <small>
-                        Search
-                    </small>
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="discover">
-
-            <div class="label">
-                INSTAWEB
-            </div>
-
-            <h2>
-                Твой интернет.<br>
-                Твой браузер.
-            </h2>
-
-            <div class="muted">
-                Приватность, скорость и удобство
-                в одном месте.
-            </div>
-
-        </div>
+      </div>
 
     </div>
 
-    ${nav()}
-
-    `;
+    ${homeNav()}
+  `;
 }
 
+function homeNav(){
 
-/* ---------- PANEL ---------- */
+  return `
+    <div class="bottom">
 
-function panel(title,body){
+      <button class="nav active"
+        onclick="home()">
+        ⌂
+        <small>Главная</small>
+      </button>
 
-    document.getElementById("app").innerHTML = `
+      <button class="nav"
+        onclick="openHistory()">
+        ◷
+        <small>История</small>
+      </button>
 
-        <div class="panel">
+      <button class="nav"
+        onclick="openTabs()">
+        □
+        <small>Вкладки</small>
+      </button>
 
-            <button
-                class="close"
-                onclick="home()"
-            >
-                ← Назад
-            </button>
+      <button class="nav"
+        onclick="openSettings()">
+        ☰
+        <small>Меню</small>
+      </button>
 
-            <h2>
-                ${title}
-            </h2>
-
-            ${body}
-
-        </div>
-    `;
+    </div>
+  `;
 }
 
+function renderBrowser(){
 
-/* ---------- TABS ---------- */
+  const app = document.getElementById("app");
 
-function tabsPanel(){
+  const current =
+    tabs[active] ||
+    {url:"https://www.google.com",title:"Google"};
 
-    panel(
-        "Вкладки",
+  app.innerHTML = `
+    <div class="browser">
 
-        tabs.map(
-            (t,i) => `
+      <div class="browser-bar">
 
-            <div class="card">
+        <button onclick="nativeBack()">‹</button>
 
-                <b>
-                    ${esc(t.title)}
-                </b>
-
-                <div class="muted">
-                    ${esc(t.url)}
-                </div>
-
-                <button
-                    onclick="
-                        active=${i};
-                        A.navigate(tabs[active].url)
-                    "
-                >
-                    Открыть
-                </button>
-
-                <button
-                    onclick="
-                        tabs.splice(${i},1);
-
-                        if(!tabs.length){
-                            tabs=[{
-                                url:'https://duckduckgo.com',
-                                title:'Search'
-                            }];
-                        }
-
-                        active=Math.min(
-                            active,
-                            tabs.length-1
-                        );
-
-                        tabsPanel()
-                    "
-                >
-                    Закрыть
-                </button>
-
-            </div>
-
-            `
-        ).join("") +
-
-        `
-
-        <div class="card">
-
-            <button
-                onclick="
-                    tabs.push({
-                        url:'https://duckduckgo.com',
-                        title:'Search'
-                    });
-
-                    active=tabs.length-1;
-
-                    A.navigate(
-                        tabs[active].url
-                    );
-                "
-            >
-                + Новая вкладка
-            </button>
-
-        </div>
-        `
-    );
-}
-
-
-/* ---------- HISTORY ---------- */
-
-function historyPanel(){
-
-    let h = [];
-
-    try{
-        h = JSON.parse(
-            A.getHistory() || "[]"
-        );
-    }catch(e){
-        h = [];
-    }
-
-    panel(
-        "История",
-
-        `
-        <button
-            onclick="
-                A.clearHistory();
-                historyPanel();
-            "
+        <input
+          class="address"
+          id="addr"
+          value="${esc(current.url)}"
+          onkeydown="if(event.key==='Enter')go(this.value)"
         >
-            Очистить историю
+
+        <button onclick="nativeRefresh()">↻</button>
+
+      </div>
+
+      <div
+        class="webframe"
+        id="webframe">
+      </div>
+
+      <div class="browser-tools">
+
+        <button onclick="nativeBack()">‹</button>
+
+        <button onclick="nativeForward()">›</button>
+
+        <button onclick="saveBookmark()">☆</button>
+
+        <button onclick="openTabs()">□</button>
+
+        <button onclick="openSettings()">☰</button>
+
+      </div>
+
+    </div>
+  `;
+
+  if(A.navigate){
+    A.navigate(current.url);
+  }
+}
+
+function nativeBack(){
+
+  if(A.back){
+    A.back();
+  }
+}
+
+function nativeForward(){
+
+  if(A.forward){
+    A.forward();
+  }
+}
+
+function nativeRefresh(){
+
+  if(A.refresh){
+    A.refresh();
+  }
+}
+
+function openTabs(){
+
+  screen = "tabs";
+  render();
+}
+
+function renderTabs(){
+
+  const app = document.getElementById("app");
+
+  let html = "";
+
+  tabs.forEach(function(t,i){
+
+    html += `
+      <div class="item">
+
+        <div class="item-title">
+          ${esc(t.title)}
+        </div>
+
+        <div class="item-url">
+          ${esc(t.url)}
+        </div>
+
+        <button class="action"
+          onclick="active=${i};browser()">
+          Открыть
         </button>
 
-        ${
-            h.length
-            ?
-            h.map(
-                x => `
+        <button class="action"
+          onclick="closeTab(${i})">
+          Закрыть
+        </button>
 
-                <div class="card">
+      </div>
+    `;
 
-                    <b>
-                        ${esc(x.title)}
-                    </b>
+  });
 
-                    <div class="muted">
-                        ${esc(x.url)}
-                    </div>
+  html += `
+    <button class="action"
+      onclick="newTab()">
+      + Новая вкладка
+    </button>
+  `;
 
-                </div>
+  app.innerHTML = `
+    <div class="panel">
 
-                `
-            ).join("")
-            :
-            `
-            <p class="muted">
-                История пока пустая
-            </p>
-            `
-        }
-        `
-    );
+      <div class="panel-top">
+        <button class="close"
+          onclick="home()">‹</button>
+        <h2>Вкладки</h2>
+      </div>
+
+      ${html}
+
+    </div>
+  `;
 }
 
+function newTab(){
 
-/* ---------- BOOKMARK ---------- */
+  tabs.push({
+    url:"https://www.google.com",
+    title:"Google"
+  });
 
-function bookmark(){
+  active = tabs.length - 1;
 
-    if(
-        !bookmarks.some(
-            x => x.url === tabs[active].url
-        )
-    ){
+  browser();
+}
 
-        bookmarks.unshift({
-            title:tabs[active].title,
-            url:tabs[active].url
-        });
+function closeTab(i){
 
-        A.saveBookmarks(
-            JSON.stringify(bookmarks)
-        );
+  tabs.splice(i,1);
+
+  if(tabs.length === 0){
+
+    tabs.push({
+      url:"https://www.google.com",
+      title:"Google"
+    });
+
+  }
+
+  active = Math.min(
+    active,
+    tabs.length - 1
+  );
+
+  renderTabs();
+}
+
+function openHistory(){
+
+  screen = "history";
+  render();
+}
+
+function renderHistory(){
+
+  const app = document.getElementById("app");
+
+  let history = [];
+
+  try{
+    if(A.getHistory){
+      history = JSON.parse(
+        A.getHistory() || "[]"
+      );
     }
+  }catch(e){
+    history = [];
+  }
+
+  let html = "";
+
+  if(history.length === 0){
+
+    html = `
+      <div class="empty">
+        История пока пуста
+      </div>
+    `;
+
+  }else{
+
+    history.forEach(function(x){
+
+      html += `
+        <div class="item">
+
+          <div class="item-title">
+            ${esc(x.title || x.url)}
+          </div>
+
+          <div class="item-url">
+            ${esc(x.url)}
+          </div>
+
+        </div>
+      `;
+
+    });
+
+  }
+
+  app.innerHTML = `
+    <div class="panel">
+
+      <div class="panel-top">
+        <button class="close"
+          onclick="home()">‹</button>
+        <h2>История</h2>
+      </div>
+
+      ${html}
+
+      <button class="action"
+        onclick="clearHistory()">
+        Очистить историю
+      </button>
+
+    </div>
+  `;
 }
 
+function clearHistory(){
 
-/* ---------- BOOKMARK PANEL ---------- */
+  if(A.clearHistory){
+    A.clearHistory();
+  }
 
-function bookmarkPanel(){
-
-    panel(
-        "Закладки",
-
-        bookmarks.length
-        ?
-
-        bookmarks.map(
-            x => `
-
-            <div
-                class="card"
-                onclick="
-                    A.navigate('${esc(x.url)}')
-                "
-            >
-
-                <b>
-                    ${esc(x.title)}
-                </b>
-
-                <div class="muted">
-                    ${esc(x.url)}
-                </div>
-
-            </div>
-
-            `
-        ).join("")
-
-        :
-
-        `
-        <p class="muted">
-            Закладок пока нет
-        </p>
-        `
-    );
+  renderHistory();
 }
 
+function saveBookmark(){
 
-/* ---------- SETTINGS ---------- */
+  const current = tabs[active];
 
-function settingsPanel(){
+  if(!bookmarks.some(function(x){
+    return x.url === current.url;
+  })){
 
-    panel(
-        "Настройки",
+    bookmarks.unshift({
+      title:current.title,
+      url:current.url
+    });
 
-        `
-
-        <div class="row">
-
-            <b>
-                Интерфейс
-            </b>
-
-            <div class="muted">
-                Liquid Glass
-            </div>
-
-        </div>
-
-
-        <div class="row">
-
-            <b>
-                Приватный режим
-            </b>
-
-            <br>
-
-            <button
-                onclick="
-                    privateMode=!privateMode;
-
-                    A.setPrivateMode(
-                        privateMode
-                    );
-
-                    alert(
-                        privateMode
-                        ?
-                        'Приватный режим включён'
-                        :
-                        'Приватный режим выключен'
-                    );
-                "
-            >
-                Переключить
-            </button>
-
-        </div>
-
-
-        <div class="row">
-
-            <b>
-                Закладки
-            </b>
-
-            <br>
-
-            <button
-                onclick="bookmarkPanel()"
-            >
-                Открыть
-            </button>
-
-        </div>
-
-
-        <div class="row">
-
-            <b>
-                История
-            </b>
-
-            <br>
-
-            <button
-                onclick="historyPanel()"
-            >
-                Открыть
-            </button>
-
-        </div>
-
-        `
-    );
+    if(A.saveBookmarks){
+      A.saveBookmarks(
+        JSON.stringify(bookmarks)
+      );
+    }
+  }
 }
 
+function openBookmarks(){
 
-/* ---------- MENU ---------- */
-
-function menu(){
-
-    panel(
-        "Меню",
-
-        `
-
-        <div
-            class="card"
-            onclick="home()"
-        >
-            🏠 Главная
-        </div>
-
-        <div
-            class="card"
-            onclick="historyPanel()"
-        >
-            ◷ История
-        </div>
-
-        <div
-            class="card"
-            onclick="bookmarkPanel()"
-        >
-            ☆ Закладки
-        </div>
-
-        <div
-            class="card"
-            onclick="tabsPanel()"
-        >
-            ▢ Вкладки
-        </div>
-
-        <div
-            class="card"
-            onclick="settingsPanel()"
-        >
-            ⚙ Настройки
-        </div>
-
-        `
-    );
+  screen = "bookmarks";
+  render();
 }
 
+function renderBookmarks(){
 
-/* ---------- URL FROM NATIVE ---------- */
+  const app = document.getElementById("app");
+
+  if(bookmarks.length === 0){
+
+    app.innerHTML = `
+      <div class="panel">
+
+        <div class="panel-top">
+          <button class="close"
+            onclick="home()">‹</button>
+          <h2>Закладки</h2>
+        </div>
+
+        <div class="empty">
+          Закладок пока нет
+        </div>
+
+      </div>
+    `;
+
+    return;
+  }
+
+  let html = "";
+
+  bookmarks.forEach(function(x){
+
+    html += `
+      <div class="item"
+        onclick="go('${esc(x.url)}')">
+
+        <div class="item-title">
+          ${esc(x.title)}
+        </div>
+
+        <div class="item-url">
+          ${esc(x.url)}
+        </div>
+
+      </div>
+    `;
+
+  });
+
+  app.innerHTML = `
+    <div class="panel">
+
+      <div class="panel-top">
+        <button class="close"
+          onclick="home()">‹</button>
+        <h2>Закладки</h2>
+      </div>
+
+      ${html}
+
+    </div>
+  `;
+}
+
+function openSettings(){
+
+  screen = "settings";
+  render();
+}
+
+function renderSettings(){
+
+  const app = document.getElementById("app");
+
+  app.innerHTML = `
+    <div class="panel">
+
+      <div class="panel-top">
+        <button class="close"
+          onclick="home()">‹</button>
+
+        <h2>Меню</h2>
+      </div>
+
+      <div class="item">
+        <div class="item-title">
+          🏠 Главная
+        </div>
+
+        <button class="action"
+          onclick="home()">
+          Открыть
+        </button>
+      </div>
+
+      <div class="item">
+        <div class="item-title">
+          ◷ История
+        </div>
+
+        <button class="action"
+          onclick="openHistory()">
+          Открыть
+        </button>
+      </div>
+
+      <div class="item">
+        <div class="item-title">
+          ☆ Закладки
+        </div>
+
+        <button class="action"
+          onclick="openBookmarks()">
+          Открыть
+        </button>
+      </div>
+
+      <div class="item">
+        <div class="item-title">
+          □ Вкладки
+        </div>
+
+        <button class="action"
+          onclick="openTabs()">
+          Открыть
+        </button>
+      </div>
+
+      <div class="item">
+        <div class="item-title">
+          Приватный режим
+        </div>
+
+        <button class="action"
+          onclick="togglePrivate()">
+          ${privateMode ? "Выключить" : "Включить"}
+        </button>
+      </div>
+
+    </div>
+  `;
+}
+
+function togglePrivate(){
+
+  privateMode = !privateMode;
+
+  if(A.setPrivateMode){
+    A.setPrivateMode(privateMode);
+  }
+
+  renderSettings();
+}
+
+window.instawebSetUrl = function(url){
+
+  const addr =
+    document.getElementById("addr");
+
+  if(addr){
+    addr.value = url || "";
+  }
+};
 
 window.instawebNativeUrl = function(url){
 
-    const input =
-        document.getElementById("addr");
+  const addr =
+    document.getElementById("addr");
 
-    if(input){
-        input.value = url;
-    }
+  if(addr){
+    addr.value = url || "";
+  }
 };
 
+render();
+</script>
 
-/* ---------- START ---------- */
-
-  
+</body>
+</html>

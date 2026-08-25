@@ -78,6 +78,8 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(root)
 
+        handleIncomingIntent(intent)
+
         setupBackButton()
 
         uiWeb.loadUrl("file:///android_asset/index.html")
@@ -473,6 +475,36 @@ class MainActivity : AppCompatActivity() {
      * Более старые версии:
      * открываются настройки приложений по умолчанию.
      */
+    private fun handleIncomingIntent(intent: Intent?) {
+        if (intent == null) return
+
+        when (intent.action) {
+            Intent.ACTION_VIEW -> {
+                val url = intent.dataString
+                if (!url.isNullOrBlank()) {
+                    navigate(url)
+                }
+            }
+
+            Intent.ACTION_PROCESS_TEXT -> {
+                val text = intent.getCharSequenceExtra(
+                    Intent.EXTRA_PROCESS_TEXT
+                )?.toString()
+
+                if (!text.isNullOrBlank()) {
+                    navigate(text)
+                }
+            }
+        }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleIncomingIntent(intent)
+    }
+
+
     private fun requestDefaultBrowser() {
 
         try {
